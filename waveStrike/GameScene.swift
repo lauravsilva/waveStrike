@@ -19,7 +19,7 @@ class GameScene: SKScene {
         
         self.addChild(myLabel)
     }
-
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
