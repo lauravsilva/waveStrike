@@ -16,6 +16,7 @@
 		679C05961C7E68D900DD1C4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 679C05941C7E68D900DD1C4C /* LaunchScreen.storyboard */; };
 		679C059E1C7E6E1D00DD1C4C /* MyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C059D1C7E6E1D00DD1C4C /* MyUtils.swift */; };
 		679C05A01C7E71B900DD1C4C /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C059F1C7E71B900DD1C4C /* GameOverScene.swift */; };
+		679C05A31C7E7C9400DD1C4C /* Sailor-Beware.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		679C05971C7E68D900DD1C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		679C059D1C7E6E1D00DD1C4C /* MyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
 		679C059F1C7E71B900DD1C4C /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sailor-Beware.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		679C05861C7E68D900DD1C4C /* waveStrike */ = {
 			isa = PBXGroup;
 			children = (
+				679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */,
 				679C05A11C7E71C800DD1C4C /* Scenes */,
 				679C05871C7E68D900DD1C4C /* AppDelegate.swift */,
 				679C05891C7E68D900DD1C4C /* GameScene.sks */,
@@ -142,6 +145,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				679C05A31C7E7C9400DD1C4C /* Sailor-Beware.ttf in Resources */,
 				679C058A1C7E68D900DD1C4C /* GameScene.sks in Resources */,
 				679C05961C7E68D900DD1C4C /* LaunchScreen.storyboard in Resources */,
 				679C05931C7E68D900DD1C4C /* Assets.xcassets in Resources */,
