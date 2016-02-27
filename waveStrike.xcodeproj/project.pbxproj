@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67357C061C8262DA003F7AD5 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C051C8262DA003F7AD5 /* MainMenuScene.swift */; };
 		679C05881C7E68D900DD1C4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C05871C7E68D900DD1C4C /* AppDelegate.swift */; };
 		679C058A1C7E68D900DD1C4C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 679C05891C7E68D900DD1C4C /* GameScene.sks */; };
 		679C058C1C7E68D900DD1C4C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C058B1C7E68D900DD1C4C /* GameScene.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		67357C051C8262DA003F7AD5 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		679C05841C7E68D900DD1C4C /* waveStrike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = waveStrike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		679C05871C7E68D900DD1C4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		679C05891C7E68D900DD1C4C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		679C05A11C7E71C800DD1C4C /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				67357C051C8262DA003F7AD5 /* MainMenuScene.swift */,
 				679C058B1C7E68D900DD1C4C /* GameScene.swift */,
 				679C059F1C7E71B900DD1C4C /* GameOverScene.swift */,
 			);
@@ -160,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67357C061C8262DA003F7AD5 /* MainMenuScene.swift in Sources */,
 				679C05A01C7E71B900DD1C4C /* GameOverScene.swift in Sources */,
 				679C058C1C7E68D900DD1C4C /* GameScene.swift in Sources */,
 				679C058E1C7E68D900DD1C4C /* GameViewController.swift in Sources */,
@@ -314,6 +318,7 @@
 				679C059C1C7E68D900DD1C4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
