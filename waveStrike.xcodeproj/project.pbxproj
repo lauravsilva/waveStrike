@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		67357C061C8262DA003F7AD5 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C051C8262DA003F7AD5 /* MainMenuScene.swift */; };
+		67357C0B1C826FF4003F7AD5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C0A1C826FF4003F7AD5 /* Player.swift */; };
 		679C05881C7E68D900DD1C4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C05871C7E68D900DD1C4C /* AppDelegate.swift */; };
 		679C058A1C7E68D900DD1C4C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 679C05891C7E68D900DD1C4C /* GameScene.sks */; };
 		679C058C1C7E68D900DD1C4C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C058B1C7E68D900DD1C4C /* GameScene.swift */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		67357C051C8262DA003F7AD5 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
+		67357C0A1C826FF4003F7AD5 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		679C05841C7E68D900DD1C4C /* waveStrike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = waveStrike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		679C05871C7E68D900DD1C4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		679C05891C7E68D900DD1C4C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -33,7 +35,7 @@
 		679C05971C7E68D900DD1C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		679C059D1C7E6E1D00DD1C4C /* MyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
 		679C059F1C7E71B900DD1C4C /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
-		679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sailor-Beware.ttf"; sourceTree = "<group>"; };
+		679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sailor-Beware.ttf"; path = "Fonts/Sailor-Beware.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		67357C071C826C93003F7AD5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		67357C091C826FC8003F7AD5 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				67357C0A1C826FF4003F7AD5 /* Player.swift */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 		679C057B1C7E68D900DD1C4C = {
 			isa = PBXGroup;
 			children = (
@@ -66,7 +84,8 @@
 		679C05861C7E68D900DD1C4C /* waveStrike */ = {
 			isa = PBXGroup;
 			children = (
-				679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */,
+				67357C091C826FC8003F7AD5 /* Classes */,
+				67357C071C826C93003F7AD5 /* Fonts */,
 				679C05A11C7E71C800DD1C4C /* Scenes */,
 				679C05871C7E68D900DD1C4C /* AppDelegate.swift */,
 				679C05891C7E68D900DD1C4C /* GameScene.sks */,
@@ -167,6 +186,7 @@
 				679C05A01C7E71B900DD1C4C /* GameOverScene.swift in Sources */,
 				679C058C1C7E68D900DD1C4C /* GameScene.swift in Sources */,
 				679C058E1C7E68D900DD1C4C /* GameViewController.swift in Sources */,
+				67357C0B1C826FF4003F7AD5 /* Player.swift in Sources */,
 				679C05881C7E68D900DD1C4C /* AppDelegate.swift in Sources */,
 				679C059E1C7E6E1D00DD1C4C /* MyUtils.swift in Sources */,
 			);
