@@ -70,7 +70,6 @@ class GameScene: SKScene
     func sceneTouched(touchLocation:CGPoint)
     {
         lastTouchLocation = touchLocation
-        print("MEEP!");
     }
     
     //Touch began event
