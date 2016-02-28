@@ -10,7 +10,6 @@
 		67357C061C8262DA003F7AD5 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C051C8262DA003F7AD5 /* MainMenuScene.swift */; };
 		67357C0B1C826FF4003F7AD5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C0A1C826FF4003F7AD5 /* Player.swift */; };
 		67357C0D1C828871003F7AD5 /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C0C1C828871003F7AD5 /* Ship.swift */; };
-		6746435D1C83B25200506F10 /* projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = 6746435C1C83B25200506F10 /* projectile.png */; };
 		679C05881C7E68D900DD1C4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C05871C7E68D900DD1C4C /* AppDelegate.swift */; };
 		679C058A1C7E68D900DD1C4C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 679C05891C7E68D900DD1C4C /* GameScene.sks */; };
 		679C058C1C7E68D900DD1C4C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C058B1C7E68D900DD1C4C /* GameScene.swift */; };
@@ -27,7 +26,6 @@
 		67357C051C8262DA003F7AD5 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		67357C0A1C826FF4003F7AD5 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		67357C0C1C828871003F7AD5 /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ship.swift; sourceTree = "<group>"; };
-		6746435C1C83B25200506F10 /* projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = projectile.png; sourceTree = "<group>"; };
 		679C05841C7E68D900DD1C4C /* Wave Strike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wave Strike.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		679C05871C7E68D900DD1C4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		679C05891C7E68D900DD1C4C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -96,7 +94,6 @@
 				679C05891C7E68D900DD1C4C /* GameScene.sks */,
 				679C058D1C7E68D900DD1C4C /* GameViewController.swift */,
 				679C058F1C7E68D900DD1C4C /* Main.storyboard */,
-				6746435C1C83B25200506F10 /* projectile.png */,
 				679C05921C7E68D900DD1C4C /* Assets.xcassets */,
 				679C05941C7E68D900DD1C4C /* LaunchScreen.storyboard */,
 				679C05971C7E68D900DD1C4C /* Info.plist */,
@@ -178,7 +175,6 @@
 				679C058A1C7E68D900DD1C4C /* GameScene.sks in Resources */,
 				679C05961C7E68D900DD1C4C /* LaunchScreen.storyboard in Resources */,
 				679C05931C7E68D900DD1C4C /* Assets.xcassets in Resources */,
-				6746435D1C83B25200506F10 /* projectile.png in Resources */,
 				679C05911C7E68D900DD1C4C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
