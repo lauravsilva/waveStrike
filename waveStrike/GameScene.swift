@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene
+class GameScene: SKScene, SKPhysicsContactDelegate
 {
     let ctx = UIGraphicsGetCurrentContext()
     
@@ -87,6 +87,10 @@ class GameScene: SKScene
             let testTarget = Target(boundary: boundary!)
             addChild(testTarget)
         }
+        
+        //Physics!
+        physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.contactDelegate = self
     }
     
     //Update
@@ -160,6 +164,40 @@ class GameScene: SKScene
             let actionMoveDone = SKAction.removeFromParent()
             projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         }
+    }
+    
+    //On contact
+    func didBeginContact(contact: SKPhysicsContact)
+    {
+        // 1
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask
+        {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        }
+        else
+        {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        // 2
+        if (
+            (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0))
+        {
+            projectileDidCollideWithTarget(firstBody.node as! SKSpriteNode, target: secondBody.node as! SKSpriteNode)
+        }
+        
+    }
+    
+    //On collision
+    func projectileDidCollideWithTarget(projectile:SKSpriteNode, target:SKSpriteNode)
+    {
+        projectile.removeFromParent()
+        target.removeFromParent()
     }
     
     //Perform upon touch

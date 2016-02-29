@@ -17,6 +17,11 @@ class Target : Ship
             maxSpeed: 0,
             rotSpeed: π / 2)
         self.zRotation = CGFloat.random(min: 0, max: 2 * π)
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size) // 1
+        self.physicsBody?.dynamic = true // 2
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Target // 3
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile // 4
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
     }
     
     required init?(coder aDecoder: NSCoder)
