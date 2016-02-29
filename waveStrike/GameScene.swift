@@ -10,6 +10,8 @@ import SpriteKit
 
 class GameScene: SKScene
 {
+    let ctx = UIGraphicsGetCurrentContext()
+    
     var player = Player()                   //Player sprite
     var lastUpdateTime: NSTimeInterval = 0  //Time of last updatev
     var dt: CGFloat = 0                     //Delta Time
@@ -40,6 +42,19 @@ class GameScene: SKScene
         //Player
         player.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         self.addChild(player);
+        
+        //Circles!
+        let circleLarge = SKShapeNode(circleOfRadius: 180.0)
+        circleLarge.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 500)
+        circleLarge.fillColor = SKColor.init(red: 255, green: 255, blue: 255, alpha: 0.25)
+        circleLarge.strokeColor = SKColor.clearColor()
+        addChild(circleLarge)
+        
+        let circleSmall = SKShapeNode(circleOfRadius: 45.0)
+        circleSmall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 500)
+        circleSmall.fillColor = SKColor.init(red: 192, green: 200, blue: 255, alpha: 0.25)
+        circleSmall.strokeColor = SKColor.clearColor()
+        addChild(circleSmall)
     }
     
     //Update
@@ -69,6 +84,11 @@ class GameScene: SKScene
     //Fire bullet
     func fireBullets()
     {
+        if(player.getGunsReady())
+        {
+            return
+        }
+            
         let guns = player.getGuns()
         
         for(var i = 0; i < 4; i++)
