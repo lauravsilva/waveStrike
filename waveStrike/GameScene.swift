@@ -12,25 +12,29 @@ class GameScene: SKScene
 {
     let ctx = UIGraphicsGetCurrentContext()
     
-    var rectFiring = SKShapeNode()
-    var circleLarge = SKShapeNode()
-    var circleSmall = SKShapeNode()
+    var boundary: CGRect?
+    var rectFiring = SKShapeNode()          //Rect for firing rate indicator
+    var circleLarge = SKShapeNode()         //Large circle for wheel
+    var circleSmall = SKShapeNode()         //Small circle for wheel
     var player = Player()                   //Player sprite
     var lastUpdateTime: NSTimeInterval = 0  //Time of last updatev
     var dt: CGFloat = 0                     //Delta Time
-    var fireTouchLocation: CGPoint?
-    var dragTouchLocation: CGPoint?
+    var fireTouchLocation: CGPoint?         //Location tapped for firing
+    var dragTouchLocation: CGPoint?         //Location tapped for dragging
     
+    //Init
     override init(size: CGSize)
     {
         super.init(size: size)
     }
 
+    //Why does this ever need to exist?
     required init?(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //Upon scene being loaded
     override func didMoveToView(view: SKView)
     {
         //Background color
@@ -42,6 +46,11 @@ class GameScene: SKScene
         myLabel.fontSize = 45
         myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame)-100)
         self.addChild(myLabel)
+        
+        //Boundary
+        boundary = CGRect(
+            origin: CGPoint(x: (self.size.width - self.size.height * self.size.height / self.size.width) / 2, y: 0),
+            size: CGSize(width: self.size.height * self.size.height / self.size.width, height: self.size.height))
         
         //Player
         player.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
@@ -95,6 +104,7 @@ class GameScene: SKScene
         
         //Update player
         player.update(dt)
+        player.wrap(boundary!)
         
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
@@ -104,12 +114,13 @@ class GameScene: SKScene
     //Fire bullet
     func fireBullets()
     {
+        //Return if player is not ready
         if(player.getGunsReady())
         {
             return
         }
-            
-        let guns = player.getGuns()
+        
+        let guns = player.getGuns() //Position for guns
         
         for(var i = 0; i < 4; i++)
         {
@@ -129,7 +140,7 @@ class GameScene: SKScene
             // Get the direction of where to shoot
             let direction = i < 2 ?
                 CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) :
-                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
+                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1    //Last 2 guns face the other way.
             
             // Make it shoot far enough to be guaranteed off screen
             let shootAmount = direction * 2000

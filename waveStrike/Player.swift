@@ -30,7 +30,6 @@ class Player : Ship
         super.update(dt)
         
         //Decrement fire rate counter based on a given delta time
-        print(fireRate)
         fireRateCounter -= dt;
         if(fireRateCounter < 0)
         {
