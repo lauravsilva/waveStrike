@@ -8,14 +8,14 @@ class Player : Ship
     
     init()
     {
-        spacc = 60.0
+        spacc = 120.0
         fireRate = 1.5
         fireRateCounter = 0.0
         let texture = SKTexture(imageNamed: "ship_medium_body")
         super.init(
             texture: texture,
             position: CGPoint(x: 0, y: 0),
-            maxSpeed: 540,
+            maxSpeed: 480,
             rotSpeed: π / 3)
     }
 
@@ -52,16 +52,16 @@ class Player : Ship
         let points: [CGPoint] =
             [
                 CGPoint(x: self.position.x, y: self.position.y) +
-                CGPoint(x: 50 * sin(self.zRotation), y: 50 * cos(self.zRotation)),
+                CGPoint(x: -50 * sin(self.zRotation), y: 50 * cos(self.zRotation)),
                 
                 CGPoint(x: self.position.x, y: self.position.y) +
-                CGPoint(x: -50 * sin(self.zRotation), y: -50 * cos(self.zRotation)),
+                CGPoint(x: 50 * sin(self.zRotation), y: -50 * cos(self.zRotation)),
                 
                 CGPoint(x: self.position.x, y: self.position.y) +
-                CGPoint(x: 50 * sin(self.zRotation), y: 50 * cos(self.zRotation)),
+                CGPoint(x: -50 * sin(self.zRotation), y: 50 * cos(self.zRotation)),
                 
                 CGPoint(x: self.position.x, y: self.position.y) +
-                CGPoint(x: -50 * sin(self.zRotation), y: -50 * cos(self.zRotation)),
+                CGPoint(x: 50 * sin(self.zRotation), y: -50 * cos(self.zRotation)),
             ]
         return points
     }

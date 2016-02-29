@@ -12,6 +12,7 @@ class GameScene: SKScene
 {
     let ctx = UIGraphicsGetCurrentContext()
     
+    var rectFiring = SKShapeNode()
     var player = Player()                   //Player sprite
     var lastUpdateTime: NSTimeInterval = 0  //Time of last updatev
     var dt: CGFloat = 0                     //Delta Time
@@ -49,12 +50,24 @@ class GameScene: SKScene
         circleLarge.fillColor = SKColor.init(red: 255, green: 255, blue: 255, alpha: 0.25)
         circleLarge.strokeColor = SKColor.clearColor()
         addChild(circleLarge)
-        
         let circleSmall = SKShapeNode(circleOfRadius: 45.0)
         circleSmall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 500)
         circleSmall.fillColor = SKColor.init(red: 192, green: 200, blue: 255, alpha: 0.25)
         circleSmall.strokeColor = SKColor.clearColor()
         addChild(circleSmall)
+        
+        //Rects!
+        rectFiring = SKShapeNode(
+            rect: CGRect(
+                origin: CGPoint(x: 0, y: 0),
+                size: CGSize(
+                    width: 800.0,
+                    height: 50.0)))
+        rectFiring.name = "rectFiring"
+        rectFiring.position = CGPoint(x : CGRectGetMidX(self.frame), y : self.frame.height - 160)
+        rectFiring.fillColor = SKColor.init(red: 255, green: 255, blue: 255, alpha: 0.25)
+        rectFiring.strokeColor = SKColor.clearColor()
+        addChild(rectFiring)
     }
     
     //Update
@@ -79,6 +92,10 @@ class GameScene: SKScene
         
         //Update player
         player.update(dt)
+        
+        //Update Rect
+        rectFiring.xScale = player.fireRateCounter / player.fireRate
+        rectFiring.position.x = CGRectGetMidX(self.frame) - 400 * player.fireRateCounter / player.fireRate
     }
     
     //Fire bullet
