@@ -59,11 +59,49 @@ class GameScene: SKScene
         //Set player to accelerate towards previously tapped position
         if let lastTouchLocation = lastTouchLocation
         {
-            player.acc = (lastTouchLocation - player.position).normalized() * 5;
+            player.acc = (lastTouchLocation - player.position).normalized() * player.spacc;
         }
         
         //Update player
         player.update(dt)
+    }
+    
+    //Fire bullet
+    func fireBullets()
+    {
+        let guns = player.getGuns()
+        
+        for(var i = 0; i < 4; i++)
+        {
+            // Set up initial location of projectile
+            let projectile = SKSpriteNode(imageNamed: "projectile")
+            projectile.position = guns[i]
+            
+            projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
+            projectile.physicsBody?.dynamic = true
+            projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
+            projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
+            projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
+            projectile.physicsBody?.usesPreciseCollisionDetection = true
+            
+            addChild(projectile)
+            
+            // Get the direction of where to shoot
+            let direction = i < 2 ?
+                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) :
+                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
+            
+            // Make it shoot far enough to be guaranteed off screen
+            let shootAmount = direction * 2000
+            
+            // Add the shoot amount to the current position
+            let realDest = shootAmount + projectile.position
+            
+            // Create the actions
+            let actionMove = SKAction.moveTo(realDest, duration: 2.0)
+            let actionMoveDone = SKAction.removeFromParent()
+            projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        }
     }
     
     //Perform upon touch
@@ -102,45 +140,19 @@ class GameScene: SKScene
     
     
     // Touch end event (fire bullets)
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
+    override func touchesEnded(
+        touches: Set<UITouch>,
+        withEvent event: UIEvent?)
+    {
         // Choose one of the touches to work with
-        guard let touch = touches.first else {
+        guard let touch = touches.first else
+        {
             return
         }
         let touchLocation = touch.locationInNode(self)
+        sceneTouched(touchLocation)
         
-        
-        // Set up initial location of projectile
-        let projectile = SKSpriteNode(imageNamed: "projectile")
-        projectile.position = player.position
-        
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
-        projectile.physicsBody?.dynamic = true
-        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
-        projectile.physicsBody?.usesPreciseCollisionDetection = true
-        
-        // Determine offset of location to projectile
-        let offset = touchLocation - projectile.position
-        
-        addChild(projectile)
-        
-        // Get the direction of where to shoot
-        let direction = offset.normalized()
-        
-        // Make it shoot far enough to be guaranteed off screen
-        let shootAmount = direction * 2000
-        
-        // Add the shoot amount to the current position
-        let realDest = shootAmount + projectile.position
-        
-        // Create the actions
-        let actionMove = SKAction.moveTo(realDest, duration: 2.0)
-        let actionMoveDone = SKAction.removeFromParent()
-        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
-        
+        fireBullets()
     }
     
 }

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "679C05831C7E68D900DD1C4C"
-               BuildableName = "waveStrike.app"
+               BuildableName = "Wave Strike.app"
                BlueprintName = "waveStrike"
                ReferencedContainer = "container:waveStrike.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "679C05831C7E68D900DD1C4C"
-            BuildableName = "waveStrike.app"
+            BuildableName = "Wave Strike.app"
             BlueprintName = "waveStrike"
             ReferencedContainer = "container:waveStrike.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "679C05831C7E68D900DD1C4C"
-            BuildableName = "waveStrike.app"
+            BuildableName = "Wave Strike.app"
             BlueprintName = "waveStrike"
             ReferencedContainer = "container:waveStrike.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "679C05831C7E68D900DD1C4C"
-            BuildableName = "waveStrike.app"
+            BuildableName = "Wave Strike.app"
             BlueprintName = "waveStrike"
             ReferencedContainer = "container:waveStrike.xcodeproj">
          </BuildableReference>
