@@ -80,6 +80,13 @@ class GameScene: SKScene
         rectFiring.fillColor = SKColor.init(red: 255, green: 255, blue: 255, alpha: 0.25)
         rectFiring.strokeColor = SKColor.clearColor()
         addChild(rectFiring)
+        
+        //Test targets
+        for(var i = 0; i < 3; i++)
+        {
+            let testTarget = Target(boundary: boundary!)
+            addChild(testTarget)
+        }
     }
     
     //Update
@@ -125,13 +132,13 @@ class GameScene: SKScene
         for(var i = 0; i < 4; i++)
         {
             // Set up initial location of projectile
-            let projectile = SKSpriteNode(imageNamed: "projectile")
+            let projectile = SKSpriteNode(imageNamed: "ship_gun_base")
             projectile.position = guns[i]
             
             projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
             projectile.physicsBody?.dynamic = true
             projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-            projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
+            projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Target
             projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
             projectile.physicsBody?.usesPreciseCollisionDetection = true
             
@@ -210,6 +217,7 @@ class GameScene: SKScene
         let touchLocation = touch.locationInNode(self)
         sceneTouched(touchLocation)
         
+        //Fire bullets if releasing a touch beyond the circle
         if((touchLocation - circleLarge.position).length() > 200)
         {
             fireBullets()
