@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var dt: CGFloat = 0                     //Delta Time
     var fireTouchLocation: CGPoint?         //Location tapped for firing
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
+    var numOfActiveTargets = 0              //Number of Active Targets
     
     //Init
     override init(size: CGSize)
@@ -86,6 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         {
             let testTarget = Target(boundary: boundary!)
             addChild(testTarget)
+            numOfActiveTargets++
         }
         
         //Physics!
@@ -120,6 +122,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
         rectFiring.position.x = CGRectGetMidX(self.frame) - 400 * player.fireRateCounter / player.fireRate
+        
+        //Win screen when there are no active targets remaining
+        if numOfActiveTargets <= 0 {
+            let gameOverScene = GameOverScene(size: size, won: true)
+            gameOverScene.scaleMode = scaleMode
+            let reveal = SKTransition.crossFadeWithDuration(0.5)
+            view?.presentScene(gameOverScene, transition: reveal)
+        }
+        
     }
     
     //Fire bullet
@@ -198,6 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         projectile.removeFromParent()
         target.removeFromParent()
+        numOfActiveTargets--
     }
     
     //Perform upon touch

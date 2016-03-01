@@ -40,7 +40,6 @@ class GameOverScene: SKScene {
             CGPoint(x: self.size.width/2, y: self.size.height/2)
         self.addChild(background)
         
-        // More here...
         let wait = SKAction.waitForDuration(3.0)
         let block = SKAction.runBlock {
             let myScene = GameScene(size: self.size)
