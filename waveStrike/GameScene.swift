@@ -147,8 +147,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
         
         let guns = player.getGuns() //Position for guns
+        var direction: CGPoint
         
-        for(var i = 0; i < 2; i++)
+        for(var i = 0; i < 4; i++)
         {
             // Set up initial location of projectile
             let projectile = SKSpriteNode(imageNamed: "ship_gun_base")
@@ -164,9 +165,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             addChild(projectile)
             
             // Get the direction of where to shoot
-            let direction = sideToFire == false ?
-                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) :
-                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
+//            let direction = sideToFire == false ?
+//                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) :
+//                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
+            
+            if (sideToFire){ //left
+                direction = CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
+            }
+            else { //right
+                direction = CGPoint(x: cos(player.zRotation), y: sin(player.zRotation))
+            }
             
             // Make it shoot far enough to be guaranteed off screen
             let shootAmount = direction * 2000
@@ -198,6 +206,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             secondBody = contact.bodyA
         }
         
+        
+        if (firstBody == secondBody){
+            return
+        }
+        
+        guard firstBody.node != nil else{
+            return
+        }
+        
+        guard secondBody.node != nil else{
+            return
+        }
         
         // 2
         if (
@@ -281,10 +301,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             // Determine offset of location to player
             let offset = touchLocation - player.position
 
-            // 4 - Bail out if you are shooting down or backwards
+            // Left or down
             if (offset.x < 0) {
                 touchLeft = true
             }
+            // Right or up
             else {
                 touchLeft = false
             }
