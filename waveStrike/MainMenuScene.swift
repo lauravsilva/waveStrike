@@ -13,7 +13,7 @@ class MainMenuScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        backgroundColor = UIColor(red: 202, green: 210, blue: 197)
+        backgroundColor = UIColor(red: 76, green: 104, blue: 119)
         let myLabel = SKLabelNode(fontNamed:"Sailor-Beware")
         myLabel.text = "Tap to begin"
         myLabel.color = UIColor(red: 82, green: 121, blue: 111)

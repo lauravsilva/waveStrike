@@ -21,11 +21,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var dt: CGFloat = 0                     //Delta Time
     var fireTouchLocation: CGPoint?         //Location tapped for firing
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
-    var numOfActiveTargets = 0              //Number of Active Targets
+    var targets: [Target] = []              //Array of targets
+    var numOfInitTargets:Int                //Number of initial number of targets
     
     //Init
     override init(size: CGSize)
     {
+        numOfInitTargets = Int(arc4random_uniform(5) + 5)
         super.init(size: size)
     }
 
@@ -39,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func didMoveToView(view: SKView)
     {
         //Background color
-        backgroundColor = UIColor(red: 76, green: 104, blue: 119)
+        backgroundColor = UIColor(red: 128, green: 158, blue: 169)
         
         //Test label
         let myLabel = SKLabelNode(fontNamed:"Sailor-Beware")
@@ -82,12 +84,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         rectFiring.strokeColor = SKColor.clearColor()
         addChild(rectFiring)
         
-        //Test targets
-        for(var i = 0; i < 3; i++)
+        // Targets
+        for(var i = 0; i < numOfInitTargets; i++)
         {
-            let testTarget = Target(boundary: boundary!)
-            addChild(testTarget)
-            numOfActiveTargets++
+            let target = Target(boundary: boundary!)
+            target.name = "target"
+            addChild(target)
+            targets.append(target)
         }
         
         //Physics!
@@ -122,9 +125,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
         rectFiring.position.x = CGRectGetMidX(self.frame) - 400 * player.fireRateCounter / player.fireRate
+
         
         //Win screen when there are no active targets remaining
-        if numOfActiveTargets <= 0 {
+        if targets.count <= 0 {
             let gameOverScene = GameOverScene(size: size, won: true)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
@@ -134,7 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     }
     
     //Fire bullet
-    func fireBullets()
+    func fireBullets(sideToFire: Bool)
     {
         //Return if player is not ready
         if(player.getGunsReady())
@@ -144,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         let guns = player.getGuns() //Position for guns
         
-        for(var i = 0; i < 4; i++)
+        for(var i = 0; i < 2; i++)
         {
             // Set up initial location of projectile
             let projectile = SKSpriteNode(imageNamed: "ship_gun_base")
@@ -160,9 +164,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             addChild(projectile)
             
             // Get the direction of where to shoot
-            let direction = i < 2 ?
+            let direction = sideToFire == false ?
                 CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) :
-                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1    //Last 2 guns face the other way.
+                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
             
             // Make it shoot far enough to be guaranteed off screen
             let shootAmount = direction * 2000
@@ -194,6 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             secondBody = contact.bodyA
         }
         
+        
         // 2
         if (
             (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
@@ -209,7 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         projectile.removeFromParent()
         target.removeFromParent()
-        numOfActiveTargets--
+        targets.removeLast()
     }
     
     //Perform upon touch
@@ -259,6 +264,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         touches: Set<UITouch>,
         withEvent event: UIEvent?)
     {
+        var touchLeft:Bool      //if true, touch is on left, if false, touch is on right
+        
         // Choose one of the touches to work with
         guard let touch = touches.first else
         {
@@ -270,7 +277,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Fire bullets if releasing a touch beyond the circle
         if((touchLocation - circleLarge.position).length() > 200)
         {
-            fireBullets()
+            
+            // Determine offset of location to player
+            let offset = touchLocation - player.position
+
+            // 4 - Bail out if you are shooting down or backwards
+            if (offset.x < 0) {
+                touchLeft = true
+            }
+            else {
+                touchLeft = false
+            }
+            
+            fireBullets(touchLeft)
         }
     }
     

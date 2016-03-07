@@ -28,4 +28,11 @@ class Target : Ship
     {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    
+    override func update(dt: CGFloat)
+    {
+        super.update(dt)
+    }
 }
