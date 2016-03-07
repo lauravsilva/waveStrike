@@ -116,6 +116,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if let dragTouchLocation = dragTouchLocation
         {
             player.acc = dragTouchLocation * 180 / dragTouchLocation.length()
+            
+            print(dragTouchLocation)
         }
         
         //Update player
@@ -234,7 +236,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         projectile.removeFromParent()
         target.removeFromParent()
-        targets.removeLast()
+        if(!targets.isEmpty)
+        {
+            targets.removeLast()
+        }
     }
     
     //Perform upon touch
