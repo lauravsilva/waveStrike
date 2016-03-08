@@ -23,12 +23,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
     var targets: [Target] = []              //Array of targets
     var numOfInitTargets:Int                //Number of initial number of targets
-    var gameOver = false
+    var numOfActiveTargets = 0
+    var gameOver = false                    //Boolean with game state
+    let scoreLabel = SKLabelNode(fontNamed: "Avenir-Medium")
+    var score:Int = 0{
+        didSet{
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
     
     //Init
     override init(size: CGSize)
     {
-        numOfInitTargets = Int(arc4random_uniform(5) + 5)
+        numOfInitTargets = Int(arc4random_uniform(5) + 3)
+        numOfActiveTargets = numOfInitTargets*2
         super.init(size: size)
     }
 
@@ -44,12 +52,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Background color
         backgroundColor = UIColor(red: 128, green: 158, blue: 169)
         
-        //Test label
-        let myLabel = SKLabelNode(fontNamed:"Sailor-Beware")
-        myLabel.text = "Wave Strike"
-        myLabel.fontSize = 45
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame)-100)
-        self.addChild(myLabel)
+        //Title label
+        let titleLabel = SKLabelNode(fontNamed:"Sailor-Beware")
+        titleLabel.text = "Wave Strike"
+        titleLabel.fontSize = 45
+        titleLabel.verticalAlignmentMode = .Top
+        titleLabel.horizontalAlignmentMode = .Left
+        titleLabel.position = CGPoint(x:CGRectGetMidX(self.frame)-500, y:CGRectGetMaxY(self.frame)-30)
+        self.addChild(titleLabel)
+        
+        //Score label
+        scoreLabel.text = "Score: 0"
+        scoreLabel.fontSize = 45
+        scoreLabel.verticalAlignmentMode = .Top
+        scoreLabel.horizontalAlignmentMode = .Right
+        scoreLabel.position = CGPoint(x:CGRectGetMidX(self.frame)+500, y:CGRectGetMaxY(self.frame)-30)
+        self.addChild(scoreLabel)
         
         //Boundary
         boundary = CGRect(
@@ -58,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         //Player
         player.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 62, height: 179))
+        player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 60, height: 175))
         player.physicsBody?.dynamic = true
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Target
@@ -143,16 +161,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             target.update(dt)
             target.wrap(boundary!)
         }
-
         
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
         rectFiring.position.x = CGRectGetMidX(self.frame) - 400 * player.fireRateCounter / player.fireRate
-
         
         //Win screen when there are no active targets remaining
-        if targets.count <= 0 {
-            let gameOverScene = GameOverScene(size: size, won: true)
+        if numOfActiveTargets <= 0 {
+            let gameOverScene = GameOverScene(size: size, won: true, score: score)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
             view?.presentScene(gameOverScene, transition: reveal)
@@ -161,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Game Over screen when there are is a collision between target and player
         if gameOver == true {
             gameOver = false
-            let gameOverScene = GameOverScene(size: size, won: false)
+            let gameOverScene = GameOverScene(size: size, won: false, score: score)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
             view?.presentScene(gameOverScene, transition: reveal)
@@ -274,6 +290,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //On collision
     func projectileDidCollideWithTarget(projectile:SKSpriteNode, target:SKSpriteNode)
     {
+        self.score++
+        self.numOfActiveTargets--
         projectile.removeFromParent()
         target.removeFromParent()
     }
