@@ -129,6 +129,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         player.update(dt)
         player.wrap(boundary!)
         
+        //Update targets
+        for target in targets
+        {
+            target.update(dt)
+            target.wrap(boundary!)
+        }
+        print(targets.count)
+        
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
         rectFiring.position.x = CGRectGetMidX(self.frame) - 400 * player.fireRateCounter / player.fireRate
@@ -241,10 +249,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         projectile.removeFromParent()
         target.removeFromParent()
-        if(!targets.isEmpty)
-        {
-            targets.removeLast()
-        }
     }
     
     //Perform upon touch
@@ -307,16 +311,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Fire bullets if releasing a touch beyond the circle
         if((touchLocation - circleLarge.position).length() > 200)
         {
+            //WHY ARE ANGLE SO COMPLICATED?!
+            var offset = (π / 2 - player.zRotation) % (2 * π)               //PLAYER ROTATION WRAPPED TO MATCH CGPOINT ANGLE METHOD
+            if(offset < 0)
+            {
+                offset += 2 * π                                             //NO, YOU WILL NOT BE NEGATIVE
+            }
+            offset = π - (touchLocation - player.position).angle - offset   //SUBTRACT PLAYER ROTATION FROM TOUCH ANGLE TO GET A RELATIVE ANGLE
             
-            // Determine offset of location to player
-            let offset = touchLocation - player.position
-
-            // Left or down
-            if (offset.x < 0) {
+            // This side
+            if (
+                (offset > -π && offset < 0) ||    //RELATIVE ANGLE CONDITION 1
+                (offset > π && offset < 2 * π))   //RELATIVE ANGLE CONDITION 2
+            {
                 touchLeft = true
             }
-            // Right or up
-            else {
+            // The other side
+            else
+            {
                 touchLeft = false
             }
             

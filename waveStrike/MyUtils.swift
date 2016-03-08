@@ -134,9 +134,13 @@ func shortestAngleBetween(angle1: CGFloat,
 }
 
 extension CGFloat {
-  func sign() -> CGFloat {
-    return (self >= 0.0) ? 1.0 : -1.0
-  }
+    func sign() -> CGFloat {
+        return (self >= 0.0) ? 1.0 : -1.0
+    }
+    
+    func toDegrees() -> CGFloat{
+        return self * 180 / π
+    }
 }
 
 extension CGFloat {

@@ -31,6 +31,7 @@ class Ship : SKSpriteNode
     //Update ship
     func update(dt: CGFloat)
     {
+        print(self.acc)
         self.vel += self.acc * dt;
         if(self.vel.length() > maxSpeed)
         {

@@ -15,7 +15,7 @@ class Player : Ship
         super.init(
             texture: texture,
             position: CGPoint(x: 0, y: 0),
-            maxSpeed: 320,
+            maxSpeed: 240,
             rotSpeed: π / 3)
     }
 
