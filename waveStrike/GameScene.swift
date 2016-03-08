@@ -23,6 +23,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
     var targets: [Target] = []              //Array of targets
     var numOfInitTargets:Int                //Number of initial number of targets
+    var gameOver = false
     
     //Init
     override init(size: CGSize)
@@ -57,7 +58,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         //Player
         player.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        self.addChild(player);
+        player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 62, height: 179))
+        player.physicsBody?.dynamic = true
+        player.physicsBody?.categoryBitMask = PhysicsCategory.Player
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.Target
+        player.physicsBody?.collisionBitMask = PhysicsCategory.None
+        player.physicsBody?.usesPreciseCollisionDetection = true
+        
+        self.addChild(player)
         
         //Circles!
         circleLarge = SKShapeNode(circleOfRadius: 180.0)
@@ -135,7 +143,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             target.update(dt)
             target.wrap(boundary!)
         }
-        print(targets.count)
+
         
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
@@ -145,6 +153,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Win screen when there are no active targets remaining
         if targets.count <= 0 {
             let gameOverScene = GameOverScene(size: size, won: true)
+            gameOverScene.scaleMode = scaleMode
+            let reveal = SKTransition.crossFadeWithDuration(0.5)
+            view?.presentScene(gameOverScene, transition: reveal)
+        }
+        
+        //Game Over screen when there are is a collision between target and player
+        if gameOver == true {
+            gameOver = false
+            let gameOverScene = GameOverScene(size: size, won: false)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
             view?.presentScene(gameOverScene, transition: reveal)
@@ -234,7 +251,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             return
         }
         
-        // 2
+        // Target + player
+        if (
+            (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.Player != 0))
+        {
+            gameOver = true
+            return
+        }
+        
+        
+        // Target + projectile
         if (
             (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0))
