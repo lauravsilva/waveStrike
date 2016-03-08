@@ -362,12 +362,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             {
                 offset += 2 * π                                             //NO, YOU WILL NOT BE NEGATIVE
             }
-            offset = π - (touchLocation - player.position).angle - offset   //SUBTRACT PLAYER ROTATION FROM TOUCH ANGLE TO GET A RELATIVE ANGLE
+            offset = -(touchLocation - player.position).angle - offset   //SUBTRACT PLAYER ROTATION FROM TOUCH ANGLE TO GET A RELATIVE ANGLE
             
             // This side
             if (
-                (offset > -π && offset < 0) ||    //RELATIVE ANGLE CONDITION 1
-                (offset > π && offset < 2 * π))   //RELATIVE ANGLE CONDITION 2
+                (offset > -2 * π && offset < -π) ||    //RELATIVE ANGLE CONDITION 1
+                (offset > 0 && offset < π))            //RELATIVE ANGLE CONDITION 2
             {
                 touchLeft = true
             }

@@ -147,7 +147,7 @@
 				TargetAttributes = {
 					679C05831C7E68D900DD1C4C = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 2YTBVCQVL7;
+						DevelopmentTeam = 2274DG3PB5;
 					};
 				};
 			};
@@ -314,7 +314,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = waveStrike/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.blah.waveStrike;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blah.waveStrike2;
 				PRODUCT_NAME = "Wave Strike";
 				PROVISIONING_PROFILE = "";
 			};
@@ -328,7 +328,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = waveStrike/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.blah.waveStrike;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blah.waveStrike2;
 				PRODUCT_NAME = "Wave Strike";
 				PROVISIONING_PROFILE = "";
 			};
