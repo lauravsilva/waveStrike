@@ -112,12 +112,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
         lastUpdateTime = currentTime
         
+        //player.vel = CGPoint(x: 0, y: 50);
         //Set player to accelerate towards previously tapped position
         if let dragTouchLocation = dragTouchLocation
         {
-            player.acc = dragTouchLocation * 180 / dragTouchLocation.length()
+            player.acc = dragTouchLocation * player.maxSpeed / 200 - player.vel
             
-            print(dragTouchLocation)
+            //Limit player acceleration
+            if(player.acc.length() > player.maxAcc)
+            {
+                player.acc = player.acc.normalized() * player.maxAcc
+            }
         }
         
         //Update player

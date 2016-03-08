@@ -2,13 +2,13 @@ import SpriteKit
 
 class Player : Ship
 {
-    var spacc: CGFloat  //Scalar acceleration value
+    var maxAcc: CGFloat  //Scalar acceleration value
     var fireRate: CGFloat
     var fireRateCounter: CGFloat
     
     init()
     {
-        spacc = 120.0
+        maxAcc = 120.0
         fireRate = 1.5
         fireRateCounter = 0.0
         let texture = SKTexture(imageNamed: "ship_medium_body")
