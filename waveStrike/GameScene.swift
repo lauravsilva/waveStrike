@@ -14,6 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     var boundary: CGRect?
     var rectFiring = SKShapeNode()          //Rect for firing rate indicator
+    var rectHealth = SKShapeNode()
     var circleLarge = SKShapeNode()         //Large circle for wheel
     var circleSmall = SKShapeNode()         //Small circle for wheel
     var player = Player()                   //Player sprite
@@ -91,6 +92,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         circleLarge.fillColor = SKColor.init(red: 255, green: 255, blue: 255, alpha: 0.25)
         circleLarge.strokeColor = SKColor.clearColor()
         addChild(circleLarge)
+        
         circleSmall = SKShapeNode(circleOfRadius: 45.0)
         circleSmall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 500)
         circleSmall.fillColor = SKColor.init(red: 192, green: 200, blue: 255, alpha: 0.25)
@@ -105,10 +107,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                     width: 800.0,
                     height: 50.0)))
         rectFiring.name = "rectFiring"
-        rectFiring.position = CGPoint(x : CGRectGetMidX(self.frame), y : self.frame.height - 160)
-        rectFiring.fillColor = SKColor.init(red: 255, green: 255, blue: 255, alpha: 0.25)
+        rectFiring.position = CGPoint(x : CGRectGetMidX(self.frame), y : self.frame.height - 210)
+        rectFiring.fillColor = SKColor.init(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.25)
         rectFiring.strokeColor = SKColor.clearColor()
         addChild(rectFiring)
+        
+        rectHealth = SKShapeNode(
+            rect: CGRect(
+                origin: CGPoint(x: 0, y: 0),
+                size: CGSize(
+                    width: 800.0,
+                    height: 50.0)))
+        rectHealth.name = "rectHealth"
+        rectHealth.position = CGPoint(x : CGRectGetMidX(self.frame), y : self.frame.height - 150)
+        rectHealth.fillColor = SKColor.init(red: 1.0, green: 0.1, blue: 0.1, alpha: 0.33)
+        rectHealth.strokeColor = SKColor.clearColor()
+        addChild(rectHealth)
+        
         
         // Targets
         for(var i = 0; i < numOfInitTargets; i++)
@@ -165,6 +180,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
         rectFiring.position.x = CGRectGetMidX(self.frame) - 400 * player.fireRateCounter / player.fireRate
+        rectHealth.xScale = player.health / player.maxHealth
+        rectHealth.position.x = CGRectGetMidX(self.frame) - 400 * player.health / player.maxHealth
         
         //Win screen when there are no active targets remaining
         if numOfActiveTargets <= 0 {

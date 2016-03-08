@@ -5,12 +5,16 @@ class Player : Ship
     var maxAcc: CGFloat  //Scalar acceleration value
     var fireRate: CGFloat
     var fireRateCounter: CGFloat
+    var maxHealth: CGFloat
+    var health: CGFloat
     
     init()
     {
         maxAcc = 120.0
         fireRate = 1.5
         fireRateCounter = 0.0
+        maxHealth = 100.0
+        health = 100.0
         let texture = SKTexture(imageNamed: "ship_medium_body")
         super.init(
             texture: texture,
