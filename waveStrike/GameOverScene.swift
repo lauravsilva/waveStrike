@@ -26,15 +26,15 @@ class GameOverScene: SKScene {
     override func didMoveToView(view: SKView) {
         
         if (won) {
-            backgroundColor = UIColor(red: 99, green: 142, blue: 131)
+            backgroundColor = Constants.Scene.WinBackgroundColor
             
-            let winLabel = SKLabelNode(fontNamed:"Sailor-Beware")
+            let winLabel = SKLabelNode(fontNamed: Constants.Font.MainFont)
             winLabel.text = "You Win"
             winLabel.fontSize = 120
             winLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
             self.addChild(winLabel)
             
-            let finalScoreLabel = SKLabelNode(fontNamed:"Avenir-Medium")
+            let finalScoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
             finalScoreLabel.text = "Score: \(score)"
             finalScoreLabel.fontSize = 50
             finalScoreLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)-150)
@@ -44,15 +44,15 @@ class GameOverScene: SKScene {
                 SKAction.waitForDuration(0.1),
                 ]))
         } else {
-            backgroundColor = UIColor(red: 54, green: 102, blue: 90)
+            backgroundColor = Constants.Scene.LoseBackgroundColor
             
-            let loseLabel = SKLabelNode(fontNamed:"Sailor-Beware")
+            let loseLabel = SKLabelNode(fontNamed: Constants.Font.MainFont)
             loseLabel.text = "You Lose"
             loseLabel.fontSize = 100
             loseLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
             self.addChild(loseLabel)
             
-            let finalScoreLabel = SKLabelNode(fontNamed:"Avenir-Medium")
+            let finalScoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
             finalScoreLabel.text = "Score: \(score)"
             finalScoreLabel.fontSize = 50
             finalScoreLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)-150)
@@ -64,7 +64,7 @@ class GameOverScene: SKScene {
         }
         
         
-        let wait = SKAction.waitForDuration(3.0)
+        let wait = SKAction.waitForDuration(1.5)
         let block = SKAction.runBlock {
             let myScene = MainMenuScene(size: self.size)
             myScene.scaleMode = self.scaleMode

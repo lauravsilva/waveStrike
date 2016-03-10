@@ -15,7 +15,7 @@ class Player : Ship
         fireRateCounter = 0.0
         maxHealth = 100.0
         health = 100.0
-        let texture = SKTexture(imageNamed: "ship_medium_body")
+        let texture = SKTexture(imageNamed: Constants.Image.PlayerImage)
         super.init(
             texture: texture,
             position: CGPoint(x: 0, y: 0),

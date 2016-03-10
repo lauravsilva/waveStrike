@@ -15,14 +15,13 @@ class MainMenuScene: SKScene {
         
         backgroundColor = UIColor(red: 76, green: 104, blue: 119)
 
-        let titleLabel = SKLabelNode(fontNamed:"Sailor-Beware")
+        let titleLabel = SKLabelNode(fontNamed: Constants.Font.MainFont)
         titleLabel.text = "Wave Strike"
-        titleLabel.color = UIColor(red: 192, green: 208, blue: 217)
         titleLabel.fontSize = 100
         titleLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMaxY(self.frame)-150)
         self.addChild(titleLabel)
         
-        let tapLabel = SKLabelNode(fontNamed:"Sailor-Beware")
+        let tapLabel = SKLabelNode(fontNamed: Constants.Font.MainFont)
         tapLabel.text = "Tap to begin"
         tapLabel.color = UIColor(red: 82, green: 121, blue: 111)
         tapLabel.fontSize = 60

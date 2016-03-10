@@ -26,7 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var numOfInitTargets:Int                //Number of initial number of targets
     var numOfActiveTargets = 0
     var gameOver = false                    //Boolean with game state
-    let scoreLabel = SKLabelNode(fontNamed: "Avenir-Medium")
+    let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
     var score:Int = 0{
         didSet{
             scoreLabel.text = "Score: \(score)"
@@ -51,10 +51,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     override func didMoveToView(view: SKView)
     {
         //Background color
-        backgroundColor = UIColor(red: 128, green: 158, blue: 169)
+        backgroundColor = Constants.Scene.GameBackgroundColor
         
         //Title label
-        let titleLabel = SKLabelNode(fontNamed:"Sailor-Beware")
+        let titleLabel = SKLabelNode(fontNamed: Constants.Font.MainFont)
         titleLabel.text = "Wave Strike"
         titleLabel.fontSize = 45
         titleLabel.verticalAlignmentMode = .Top
@@ -223,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         for(var i = 0; i < 4; i++)
         {
             // Set up initial location of projectile
-            let projectile = SKSpriteNode(imageNamed: "ship_gun_base")
+            let projectile = SKSpriteNode(imageNamed: Constants.Image.ProjectileImage)
             projectile.position = guns[i]
             
             projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)

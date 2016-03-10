@@ -4,7 +4,7 @@ class Target : Ship
 {
     init(boundary: CGRect, position: CGPoint)
     {
-        let texture = SKTexture(imageNamed: "ship_small_body")
+        let texture = SKTexture(imageNamed: Constants.Image.TargetImage1)
         super.init(
             texture: texture,
             position: position,
