@@ -128,7 +128,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // Targets
         for(var i = 0; i < numOfInitTargets; i++)
         {
-            let target = Target(boundary: boundary!)
+            let target = Target(
+                boundary: boundary!,
+                position: CGPoint(
+                    x:CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
+                    y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY))
+                
+            )
             target.name = "target"
             addChild(target)
             targets.append(target)

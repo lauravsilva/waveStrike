@@ -2,18 +2,20 @@ import SpriteKit
 
 class Target : Ship
 {
-    init(boundary: CGRect)
+    init(boundary: CGRect, position: CGPoint)
     {
         let texture = SKTexture(imageNamed: "ship_small_body")
         super.init(
             texture: texture,
+            position: position,
+            /*
             position: CGPoint(
                 x: CGFloat.random(
                     min: boundary.minX,
                     max: boundary.maxX),
                 y: CGFloat.random(
                     min: boundary.minY,
-                    max: boundary.maxY)),
+                    max: boundary.maxY)),*/
             maxSpeed: 80,
             rotSpeed: π / 3)
         self.zRotation = CGFloat.random(min: 0, max: 2 * π)
