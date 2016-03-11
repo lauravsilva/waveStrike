@@ -24,7 +24,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
     var targets: [Target] = []              //Array of targets
     var numOfInitTargets:Int                //Number of initial number of targets
-    var numOfActiveTargets = 0
+    var numOfActiveTargets = 0              //Number of active targets
+    let waterAnimation: SKAction            //Water animation
     var gameOver = false                    //Boolean with game state
     let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
     var score:Int = 0{
@@ -38,6 +39,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         numOfInitTargets = Int(arc4random_uniform(5) + 3)
         numOfActiveTargets = numOfInitTargets*2
+        
+        // load water ripple images onto waterAnimation
+        var waterTextures:[SKTexture] = []
+        for i in 0...4 {
+            waterTextures.append(SKTexture(imageNamed: "water_ripple_medium_00\(i)"))
+        }
+        waterAnimation = SKAction.animateWithTextures(waterTextures,
+            timePerFrame: 0.1)
+        
         super.init(size: size)
     }
 
@@ -77,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         //Player
         player.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 60, height: 175))
+        player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 84, height: 226))
         player.physicsBody?.dynamic = true
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Target
@@ -152,10 +162,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if(lastUpdateTime > 0)
         {
             dt = CGFloat(currentTime - lastUpdateTime)
+            //startWaterAnimation()
         }
         else
         {
             dt = 0
+            //stopWaterAnimation()
         }
         lastUpdateTime = currentTime
         
@@ -402,6 +414,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
             fireBullets(touchLeft)
         }
+    }
+ 
+    // Start ripple water animation
+    func startWaterAnimation() {
+        if player.actionForKey("animation") == nil {
+            player.runAction(
+                SKAction.repeatActionForever(waterAnimation),
+                withKey: "animation")
+        }
+    }
+    
+    // Stop ripple water animation
+    func stopWaterAnimation() {
+        player.removeActionForKey("animation")
     }
     
 }
