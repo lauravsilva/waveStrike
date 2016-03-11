@@ -131,8 +131,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             let target = Target(
                 boundary: boundary!,
                 position: CGPoint(
-                    x:CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
-                    y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY))
+                    x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
+                    y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/3))
                 
             )
             target.name = "target"
