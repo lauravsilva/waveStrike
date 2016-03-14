@@ -377,6 +377,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     func playerDidCollideWithTarget(target:SKSpriteNode)
     {
+        self.results.score += 2
+        self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
         player.health -= 25
         self.numOfActiveTargets -= 2
         target.removeFromParent()

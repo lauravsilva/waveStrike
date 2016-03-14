@@ -33,10 +33,10 @@ struct Constants{
     struct TutorialStart {
         static let positions: [CGPoint] =
         [
-            CGPoint(x : 250, y : 300),
-            CGPoint(x : 250, y : -300),
-            CGPoint(x : -250, y : 300),
-            CGPoint(x : -250, y : -300)
+            CGPoint(x : 350, y : 300),
+            CGPoint(x : 350, y : -300),
+            CGPoint(x : -350, y : 300),
+            CGPoint(x : -350, y : -300)
         ]
         
         static let velocityDirs: [CGPoint] =
