@@ -179,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         else
         {
             // Targets
-            numOfInitTargets = Int(arc4random_uniform(5) + 3)
+            numOfInitTargets = (results.level - 1) * 3
             for(var i = 0; i < numOfInitTargets; i++)
             {
                 let targetRotation = CGFloat.random(min: 0, max: 2 * π)

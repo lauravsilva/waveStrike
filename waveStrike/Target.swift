@@ -12,7 +12,7 @@ class Target : Ship
             rotSpeed: π / 3)
         self.vel = velocityDir
         self.vel *= self.maxSpeed
-        self.zRotation = self.vel.angle
+        self.zRotation = self.vel.angle - π / 2
         self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size) // 1
         self.physicsBody?.dynamic = true // 2
         self.physicsBody?.categoryBitMask = PhysicsCategory.Target // 3
