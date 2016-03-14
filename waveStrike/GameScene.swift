@@ -27,7 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var fireTouchLocation: CGPoint?         //Location tapped for firing
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
     var targets: [Target] = []              //Array of targets
-    var numOfInitTargets:Int                //Number of initial number of targets
+    var numOfInitTargets = 0                //Number of initial number of targets
     var numOfActiveTargets = 0              //Number of active targets
     let waterAnimation: SKAction            //Water animation
     let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
@@ -37,9 +37,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         self.results = results
         self.tempHealth = health
-        
-        numOfInitTargets = Int(arc4random_uniform(5) + 3)
-        numOfActiveTargets = numOfInitTargets*2
         
         // load water ripple images onto waterAnimation
         var waterTextures:[SKTexture] = []
@@ -160,23 +157,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             dirShoot.horizontalAlignmentMode = .Center
             dirShoot.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 550 - dragRadius)
             self.addChild(dirShoot)
+            
+            // Targets
+            numOfInitTargets = 4
+            for(var i = 0; i < numOfInitTargets; i++)
+            {
+                let target = Target(
+                    boundary: boundary!,
+                    position: Constants.TutorialStart.positions[i],
+                    velocityDir: Constants.TutorialStart.velocityDirs[i]
+                )
+                target.position += player.position  //Position targets relative to the player
+                print(target.position)
+                target.name = "target"
+                addChild(target)
+                targets.append(target)
+            }
         }
-        
-        
-        // Targets
-        for(var i = 0; i < numOfInitTargets; i++)
+            
+        //Not tutorial
+        else
         {
-            let target = Target(
-                boundary: boundary!,
-                position: CGPoint(
-                    x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
-                    y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/3))
-                
-            )
-            target.name = "target"
-            addChild(target)
-            targets.append(target)
+            // Targets
+            numOfInitTargets = Int(arc4random_uniform(5) + 3)
+            for(var i = 0; i < numOfInitTargets; i++)
+            {
+                let targetRotation = CGFloat.random(min: 0, max: 2 * π)
+                let target = Target(
+                    boundary: boundary!,
+                    position: CGPoint(
+                        x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
+                        y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/3)),
+                    velocityDir : CGPoint(
+                        x: -sin(targetRotation),
+                        y: cos(targetRotation))
+                )
+                target.name = "target"
+                addChild(target)
+                targets.append(target)
+            }
         }
+        
+        //Active targets counter
+        numOfActiveTargets = numOfInitTargets * 2
         
         //Physics!
         physicsWorld.gravity = CGVectorMake(0, 0)

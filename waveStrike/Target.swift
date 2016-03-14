@@ -2,24 +2,17 @@ import SpriteKit
 
 class Target : Ship
 {
-    init(boundary: CGRect, position: CGPoint)
+    init(boundary: CGRect, position: CGPoint, velocityDir: CGPoint)
     {
         let texture = SKTexture(imageNamed: Constants.Image.TargetImage1)
         super.init(
             texture: texture,
             position: position,
-            /*
-            position: CGPoint(
-                x: CGFloat.random(
-                    min: boundary.minX,
-                    max: boundary.maxX),
-                y: CGFloat.random(
-                    min: boundary.minY,
-                    max: boundary.maxY)),*/
             maxSpeed: 80,
             rotSpeed: π / 3)
-        self.zRotation = CGFloat.random(min: 0, max: 2 * π)
-        self.vel = CGPoint(x: -sin(self.zRotation) * self.maxSpeed, y: cos(self.zRotation) * self.maxSpeed)
+        self.vel = velocityDir
+        self.vel *= self.maxSpeed
+        self.zRotation = self.vel.angle
         self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size) // 1
         self.physicsBody?.dynamic = true // 2
         self.physicsBody?.categoryBitMask = PhysicsCategory.Target // 3

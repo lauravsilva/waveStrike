@@ -30,4 +30,22 @@ struct Constants{
         static let LoseBackgroundColor = UIColor(red: 54, green: 102, blue: 90)
     }
     
+    struct TutorialStart {
+        static let positions: [CGPoint] =
+        [
+            CGPoint(x : 250, y : 300),
+            CGPoint(x : 250, y : -300),
+            CGPoint(x : -250, y : 300),
+            CGPoint(x : -250, y : -300)
+        ]
+        
+        static let velocityDirs: [CGPoint] =
+        [
+            CGPoint(x : 0, y : 1),
+            CGPoint(x : 0, y : 1),
+            CGPoint(x : 0, y : -1),
+            CGPoint(x : 0, y : -1)
+        ]
+    }
+    
 }
