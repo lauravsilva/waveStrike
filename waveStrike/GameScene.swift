@@ -13,12 +13,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     let ctx = UIGraphicsGetCurrentContext()
     
     var boundary: CGRect?
+    let results: LevelResults
+    let tempHealth: CGFloat
     var rectFiring = SKShapeNode()          //Rect for firing rate indicator
-    var rectHealth = SKShapeNode()
+    var rectHealth = SKShapeNode()          //Health bar
     var circleLarge = SKShapeNode()         //Large circle for wheel
     var circleSmall = SKShapeNode()         //Small circle for wheel
     var circleIndic = SKShapeNode()         //Small circle for wheel
-    var dragRadius:CGFloat = 180;
+    var dragRadius:CGFloat = 180;           //Max radius for directional dragging
     var player = Player()                   //Player sprite
     var lastUpdateTime: NSTimeInterval = 0  //Time of last updatev
     var dt: CGFloat = 0                     //Delta Time
@@ -29,15 +31,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var numOfActiveTargets = 0              //Number of active targets
     let waterAnimation: SKAction            //Water animation
     let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
-    var score:Int = 0{
-        didSet{
-            scoreLabel.text = "Score: \(score)"
-        }
-    }
     
     //Init
-    override init(size: CGSize)
+    init(size: CGSize, results: LevelResults, health: CGFloat)
     {
+        self.results = results
+        self.tempHealth = health
+        
         numOfInitTargets = Int(arc4random_uniform(5) + 3)
         numOfActiveTargets = numOfInitTargets*2
         
@@ -74,7 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.addChild(titleLabel)
         
         //Score label
-        scoreLabel.text = "Score: 0"
+        scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
         scoreLabel.fontSize = 45
         scoreLabel.verticalAlignmentMode = .Top
         scoreLabel.horizontalAlignmentMode = .Right
@@ -87,6 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             size: CGSize(width: self.size.height * self.size.height / self.size.width, height: self.size.height))
         
         //Player
+        player.health = tempHealth
         player.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 84, height: 226))
         player.physicsBody?.dynamic = true
@@ -210,7 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         //Win screen when there are no active targets remaining
         if numOfActiveTargets <= 0 {
-            let gameOverScene = GameOverScene(size: size, won: true, score: score)
+            let gameOverScene = GameOverScene(size: size, won: true, results: results, health: player.health)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
             view?.presentScene(gameOverScene, transition: reveal)
@@ -218,12 +219,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         //Game Over screen when player health < 0
         if player.health <= 0 {
-            let gameOverScene = GameOverScene(size: size, won: false, score: score)
+            let gameOverScene = GameOverScene(size: size, won: false, results: results, health: player.health)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
             view?.presentScene(gameOverScene, transition: reveal)
         }
-        
     }
     
     //Fire bullet
@@ -325,7 +325,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //On collision
     func projectileDidCollideWithTarget(projectile:SKSpriteNode, target:SKSpriteNode)
     {
-        self.score++
+        self.results.score++
+        self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
         self.numOfActiveTargets--
         projectile.removeFromParent()
         target.removeFromParent()
@@ -334,7 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     func playerDidCollideWithTarget(target:SKSpriteNode)
     {
         player.health -= 25
-        self.numOfActiveTargets--
+        self.numOfActiveTargets -= 2
         target.removeFromParent()
     }
     
