@@ -28,7 +28,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var numOfInitTargets:Int                //Number of initial number of targets
     var numOfActiveTargets = 0              //Number of active targets
     let waterAnimation: SKAction            //Water animation
-    var gameOver = false                    //Boolean with game state
     let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
     var score:Int = 0{
         didSet{
@@ -217,9 +216,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             view?.presentScene(gameOverScene, transition: reveal)
         }
         
-        //Game Over screen when there are is a collision between target and player
-        if gameOver == true {
-            gameOver = false
+        //Game Over screen when player health < 0
+        if player.health <= 0 {
             let gameOverScene = GameOverScene(size: size, won: false, score: score)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
@@ -310,8 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.Player != 0))
         {
-            gameOver = true
-            return
+            playerDidCollideWithTarget(firstBody.node as! SKSpriteNode)
         }
         
         
@@ -331,6 +328,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.score++
         self.numOfActiveTargets--
         projectile.removeFromParent()
+        target.removeFromParent()
+    }
+    
+    func playerDidCollideWithTarget(target:SKSpriteNode)
+    {
+        player.health -= 25
+        self.numOfActiveTargets--
         target.removeFromParent()
     }
     
