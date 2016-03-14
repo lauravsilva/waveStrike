@@ -17,6 +17,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var rectHealth = SKShapeNode()
     var circleLarge = SKShapeNode()         //Large circle for wheel
     var circleSmall = SKShapeNode()         //Small circle for wheel
+    var circleIndic = SKShapeNode()         //Small circle for wheel
+    var dragRadius:CGFloat = 180;
     var player = Player()                   //Player sprite
     var lastUpdateTime: NSTimeInterval = 0  //Time of last updatev
     var dt: CGFloat = 0                     //Delta Time
@@ -97,17 +99,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         self.addChild(player)
         
         //Circles!
-        circleLarge = SKShapeNode(circleOfRadius: 180.0)
+        circleLarge = SKShapeNode(circleOfRadius: dragRadius)
         circleLarge.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 500)
-        circleLarge.fillColor = SKColor.init(red: 255, green: 255, blue: 255, alpha: 0.25)
+        circleLarge.fillColor = SKColor.init(red: 1, green: 1, blue: 1, alpha: 0.25)
         circleLarge.strokeColor = SKColor.clearColor()
         addChild(circleLarge)
         
         circleSmall = SKShapeNode(circleOfRadius: 45.0)
         circleSmall.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 500)
-        circleSmall.fillColor = SKColor.init(red: 192, green: 200, blue: 255, alpha: 0.25)
+        circleSmall.fillColor = SKColor.init(red: 0.75, green: 0.8, blue: 1.0, alpha: 0.25)
         circleSmall.strokeColor = SKColor.clearColor()
         addChild(circleSmall)
+        
+        circleIndic = SKShapeNode(circleOfRadius: 55.0)
+        circleIndic.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 500)
+        circleIndic.fillColor = SKColor.init(red: 0.75, green: 0.8, blue: 1.0, alpha: 0.25)
+        circleIndic.strokeColor = SKColor.clearColor()
+        addChild(circleIndic)
         
         //Rects!
         rectFiring = SKShapeNode(
@@ -175,7 +183,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Set player to accelerate towards previously tapped position
         if let dragTouchLocation = dragTouchLocation
         {
-            player.acc = dragTouchLocation * player.maxSpeed / 200 - player.vel
+            player.acc = dragTouchLocation * player.maxSpeed / dragRadius - player.vel
             
             //Limit player acceleration
             if(player.acc.length() > player.maxAcc)
@@ -246,11 +254,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             projectile.physicsBody?.usesPreciseCollisionDetection = true
             
             addChild(projectile)
-            
-            // Get the direction of where to shoot
-//            let direction = sideToFire == false ?
-//                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) :
-//                CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
             
             if (sideToFire){ //left
                 direction = CGPoint(x: cos(player.zRotation), y: sin(player.zRotation)) * -1
@@ -334,9 +337,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     //Perform upon touch
     func sceneTouched(touchLocation:CGPoint)
     {
-        if((touchLocation - circleLarge.position).length() < 200)
+        if((touchLocation - circleLarge.position).length() < dragRadius)
         {
             dragTouchLocation = touchLocation - circleLarge.position
+            circleIndic.position = touchLocation
         }
         else
         {
