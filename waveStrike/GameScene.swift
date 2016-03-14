@@ -142,6 +142,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         rectHealth.strokeColor = SKColor.clearColor()
         addChild(rectHealth)
         
+        //Tutorial
+        if(results.level == 1)
+        {
+            let dirMove = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
+            dirMove.text = "Tap the circle to move!"
+            dirMove.fontSize = 45
+            dirMove.verticalAlignmentMode = .Center
+            dirMove.horizontalAlignmentMode = .Center
+            dirMove.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 450 + dragRadius)
+            self.addChild(dirMove)
+            
+            let dirShoot = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
+            dirShoot.text = "Tap elsewhere to shoot!"
+            dirShoot.fontSize = 45
+            dirShoot.verticalAlignmentMode = .Center
+            dirShoot.horizontalAlignmentMode = .Center
+            dirShoot.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 550 - dragRadius)
+            self.addChild(dirShoot)
+        }
+        
         
         // Targets
         for(var i = 0; i < numOfInitTargets; i++)

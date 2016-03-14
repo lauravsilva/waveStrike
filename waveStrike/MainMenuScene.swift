@@ -30,7 +30,7 @@ class MainMenuScene: SKScene {
     }
     
     func sceneTapped() {
-        let myScene = GameScene(size:self.size, results: LevelResults(level: 0, score: 0), health: 100)
+        let myScene = GameScene(size:self.size, results: LevelResults(level: 1, score: 0), health: 100)
         myScene.scaleMode = scaleMode
         let reveal = SKTransition.crossFadeWithDuration(1.5)
         self.view?.presentScene(myScene, transition: reveal)
