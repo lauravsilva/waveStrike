@@ -1,5 +1,6 @@
 import SpriteKit
 
+//Patrolling enemy. Moves, doesn't shoot.
 class Patroller : Enemy
 {
     init(position: CGPoint, velocityDir: CGPoint)
