@@ -26,7 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var dt: CGFloat = 0                     //Delta Time
     var fireTouchLocation: CGPoint?         //Location tapped for firing
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
-    var targets: [Target] = []              //Array of targets
+    var enemies: [Enemy] = []               //Array of targets
     var numOfInitTargets = 0                //Number of initial number of targets
     var numOfActiveTargets = 0              //Number of active targets
     let waterAnimation: SKAction            //Water animation
@@ -162,16 +162,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             numOfInitTargets = 4
             for(var i = 0; i < numOfInitTargets; i++)
             {
-                let target = Target(
-                    boundary: boundary!,
+                let enemy = Patroller(
                     position: Constants.TutorialStart.positions[i],
                     velocityDir: Constants.TutorialStart.velocityDirs[i]
                 )
-                target.position += player.position  //Position targets relative to the player
-                print(target.position)
-                target.name = "target"
-                addChild(target)
-                targets.append(target)
+                enemy.position += player.position  //Position targets relative to the player
+                enemy.name = "target"
+                addChild(enemy)
+                enemies.append(enemy)
             }
         }
             
@@ -183,8 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             for(var i = 0; i < numOfInitTargets; i++)
             {
                 let targetRotation = CGFloat.random(min: 0, max: 2 * π)
-                let target = Target(
-                    boundary: boundary!,
+                let enemy = Patroller(
                     position: CGPoint(
                         x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
                         y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/3)),
@@ -192,9 +189,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                         x: -sin(targetRotation),
                         y: cos(targetRotation))
                 )
-                target.name = "target"
-                addChild(target)
-                targets.append(target)
+                enemy.name = "target"
+                addChild(enemy)
+                enemies.append(enemy)
             }
         }
         
@@ -240,10 +237,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         player.wrap(boundary!)
         
         //Update targets
-        for target in targets
+        for enemy in enemies
         {
-            target.update(dt)
-            target.wrap(boundary!)
+            enemy.update(dt)
+            enemy.wrap(boundary!)
         }
         
         //Update Rect

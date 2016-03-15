@@ -11,7 +11,7 @@
 		67357C061C8262DA003F7AD5 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C051C8262DA003F7AD5 /* MainMenuScene.swift */; };
 		67357C0B1C826FF4003F7AD5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C0A1C826FF4003F7AD5 /* Player.swift */; };
 		67357C0D1C828871003F7AD5 /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67357C0C1C828871003F7AD5 /* Ship.swift */; };
-		67705AC61C84FA05007A5687 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67705AC51C84FA05007A5687 /* Target.swift */; };
+		67705AC61C84FA05007A5687 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67705AC51C84FA05007A5687 /* Enemy.swift */; };
 		679C05881C7E68D900DD1C4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C05871C7E68D900DD1C4C /* AppDelegate.swift */; };
 		679C058A1C7E68D900DD1C4C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 679C05891C7E68D900DD1C4C /* GameScene.sks */; };
 		679C058C1C7E68D900DD1C4C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C058B1C7E68D900DD1C4C /* GameScene.swift */; };
@@ -22,6 +22,7 @@
 		679C059E1C7E6E1D00DD1C4C /* MyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C059D1C7E6E1D00DD1C4C /* MyUtils.swift */; };
 		679C05A01C7E71B900DD1C4C /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 679C059F1C7E71B900DD1C4C /* GameOverScene.swift */; };
 		679C05A31C7E7C9400DD1C4C /* Sailor-Beware.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */; };
+		67F4ADAE1C984F6F00A8C5E0 /* Patroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F4ADAD1C984F6E00A8C5E0 /* Patroller.swift */; };
 		67F5FB9D1C974A860096E8E8 /* LevelResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F5FB9C1C974A860096E8E8 /* LevelResults.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +31,7 @@
 		67357C051C8262DA003F7AD5 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		67357C0A1C826FF4003F7AD5 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		67357C0C1C828871003F7AD5 /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ship.swift; sourceTree = "<group>"; };
-		67705AC51C84FA05007A5687 /* Target.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		67705AC51C84FA05007A5687 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		679C05841C7E68D900DD1C4C /* Wave Strike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wave Strike.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		679C05871C7E68D900DD1C4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		679C05891C7E68D900DD1C4C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -43,6 +44,7 @@
 		679C059D1C7E6E1D00DD1C4C /* MyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
 		679C059F1C7E71B900DD1C4C /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sailor-Beware.ttf"; path = "Fonts/Sailor-Beware.ttf"; sourceTree = "<group>"; };
+		67F4ADAD1C984F6E00A8C5E0 /* Patroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patroller.swift; sourceTree = "<group>"; };
 		67F5FB9C1C974A860096E8E8 /* LevelResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelResults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,8 +89,9 @@
 			children = (
 				67357C0A1C826FF4003F7AD5 /* Player.swift */,
 				67357C0C1C828871003F7AD5 /* Ship.swift */,
-				67705AC51C84FA05007A5687 /* Target.swift */,
+				67705AC51C84FA05007A5687 /* Enemy.swift */,
 				67F5FB9C1C974A860096E8E8 /* LevelResults.swift */,
+				67F4ADAD1C984F6E00A8C5E0 /* Patroller.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -215,9 +218,10 @@
 				67357C0D1C828871003F7AD5 /* Ship.swift in Sources */,
 				679C05A01C7E71B900DD1C4C /* GameOverScene.swift in Sources */,
 				67F5FB9D1C974A860096E8E8 /* LevelResults.swift in Sources */,
-				67705AC61C84FA05007A5687 /* Target.swift in Sources */,
+				67705AC61C84FA05007A5687 /* Enemy.swift in Sources */,
 				679C058C1C7E68D900DD1C4C /* GameScene.swift in Sources */,
 				670FE0931C91CACC0080CA27 /* Constants.swift in Sources */,
+				67F4ADAE1C984F6F00A8C5E0 /* Patroller.swift in Sources */,
 				679C058E1C7E68D900DD1C4C /* GameViewController.swift in Sources */,
 				67357C0B1C826FF4003F7AD5 /* Player.swift in Sources */,
 				679C05881C7E68D900DD1C4C /* AppDelegate.swift in Sources */,

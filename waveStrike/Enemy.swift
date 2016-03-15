@@ -1,18 +1,25 @@
 import SpriteKit
 
-class Target : Ship
+class Enemy : Ship
 {
-    init(boundary: CGRect, position: CGPoint, velocityDir: CGPoint)
+    init(
+        position: CGPoint,  //Position of the enemy
+        velocity: CGPoint,  //Starting velocity of the enemy
+        maxSpeed: CGFloat,  //Maximum scalar speed of the enemy
+        rotSpeed: CGFloat,  //Rotational speed of the enemy
+        texture: SKTexture) //Texture of the enemy
     {
-        let texture = SKTexture(imageNamed: Constants.Image.TargetImage1)
         super.init(
             texture: texture,
             position: position,
-            maxSpeed: 80,
-            rotSpeed: π / 3)
-        self.vel = velocityDir
-        self.vel *= self.maxSpeed
+            maxSpeed: maxSpeed,
+            rotSpeed: rotSpeed)
+        
+        //Set velocity and facing direction
+        self.vel = velocity
         self.zRotation = self.vel.angle - π / 2
+        
+        //Physics stuff
         self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size) // 1
         self.physicsBody?.dynamic = true // 2
         self.physicsBody?.categoryBitMask = PhysicsCategory.Target // 3
@@ -23,10 +30,5 @@ class Target : Ship
     required init?(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func update(dt: CGFloat)
-    {
-        super.update(dt)
     }
 }
