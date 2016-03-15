@@ -39,9 +39,9 @@ class GameOverScene: SKScene
         {
             backgroundColor = Constants.Scene.WinBackgroundColor
             
-            let winLabel = SKLabelNode(fontNamed: Constants.Font.MainFont)
-            winLabel.text = "You Win"
-            winLabel.fontSize = 120
+            let winLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
+            winLabel.text = "Level \(self.results.level) Completed"
+            winLabel.fontSize = 80
             winLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
             self.addChild(winLabel)
             
@@ -76,7 +76,7 @@ class GameOverScene: SKScene
             self.addChild(loseLabel)
             
             let finalScoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
-            finalScoreLabel.text = "Score: \(results.level)"
+            finalScoreLabel.text = "Score: \(results.score)"
             finalScoreLabel.fontSize = 50
             finalScoreLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)-150)
             self.addChild(finalScoreLabel)

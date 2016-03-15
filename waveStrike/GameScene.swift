@@ -309,6 +309,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             let reveal = SKTransition.crossFadeWithDuration(0.5)
             view?.presentScene(gameOverScene, transition: reveal)
         }
+        
+        
     }
     
     //Fire bullet
@@ -402,40 +404,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0))
         {
-            projectileDidCollideWithTarget(firstBody.node as! SKSpriteNode, target: secondBody.node as! SKSpriteNode)
+            projectileDidCollideWithTarget(firstBody.node as! SKSpriteNode, projectile: secondBody.node as! SKSpriteNode)
         }
         
     }
     
     //On collision: target and projectile
-    func projectileDidCollideWithTarget(projectile:SKSpriteNode, target:SKSpriteNode)
+    func projectileDidCollideWithTarget(target:SKSpriteNode, projectile:SKSpriteNode)
     {
-        //print("collision target + projectile")
-        self.results.score++
-        self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
-        if(target.name != "mineTarget"){
+        // shoot mine, ++ score
+        if(target.name == "mineTarget"){
+            //print("SHOT MINE!!!!")
+            self.results.score += 2
+        }
+        // shoot target, ++ score and decrease active target count
+        else{
             //print("SHOT TARGET");
             self.numOfActiveTargets--
+            self.results.score += 5
         }
-        
+        self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
         projectile.removeFromParent()
         target.removeFromParent()
+        print("end: \(self.numOfActiveTargets)")
     }
     
     //On collision: target + player
     func playerDidCollideWithTarget(target:SKSpriteNode)
     {
-        //print("collision target + player")
+        // hit mine, decrease health
         if (target.name == "mineTarget"){
             //print("HIT MINE")
             player.health -= 25
         }
-            
+        // hit by target, decrease health and active target count
         else{
             //print("HIT BY TARGET")
             self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
             player.health -= 25
-            self.numOfActiveTargets -= 2
+            self.numOfActiveTargets--
             target.removeFromParent()
         }
     }
