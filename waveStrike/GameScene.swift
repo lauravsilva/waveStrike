@@ -32,6 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var water: SKSpriteNode                 //Water sprite
     let waterAnimation: SKAction            //Water animation
     let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
+    var shooterTargetHealth = 6
     
     //Init
     init(size: CGSize, results: LevelResults, health: CGFloat)
@@ -218,23 +219,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
             
             // Shooter
-            let targetRotation = CGFloat.random(min: 0, max: 2 * π)
+            let targetRotationShooter = CGFloat.random(min: 0, max: 2 * π)
             let shooterEnemy = Shooter(
                 position: CGPoint(
                     x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
                     y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/2)),
                 velocityDir : CGPoint(
-                    x: -sin(targetRotation),
-                    y: cos(targetRotation))
+                    x: -sin(targetRotationShooter),
+                    y: cos(targetRotationShooter))
             )
             shooterEnemy.name = "shootingTarget"
-            //addChild(shooterEnemy)
-            //enemies.append(shooterEnemy)
-            
+            addChild(shooterEnemy)
+            enemies.append(shooterEnemy)
         }
-        
-        
-        
         
         //Active targets counter
         numOfActiveTargets = numOfInitMovingTargets * 2
@@ -284,9 +281,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Update targets
         for enemy in enemies
         {
+            if (enemy.name == "shootingTarget"){
+                //enemy.fireBullets(true)
+            }
             enemy.update(dt)
             enemy.wrap(boundary!)
         }
+        
+        
         
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
@@ -414,19 +416,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         // shoot mine, ++ score
         if(target.name == "mineTarget"){
-            //print("SHOT MINE!!!!")
-            self.results.score += 2
+            self.results.score += 1
         }
+            
+        // shoot shooting target, it takes damage
+        else if(target.name == "shootingTarget"){
+            shooterTargetHealth--
+            
+            if (shooterTargetHealth <= 0){
+                self.results.score += 6
+                target.removeFromParent()
+            }
+            
+            self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
+            projectile.removeFromParent()
+            return
+        }
+            
         // shoot target, ++ score and decrease active target count
         else{
-            //print("SHOT TARGET");
             self.numOfActiveTargets--
-            self.results.score += 5
+            self.results.score += 4
         }
+        
         self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
         projectile.removeFromParent()
         target.removeFromParent()
-        print("end: \(self.numOfActiveTargets)")
     }
     
     //On collision: target + player
@@ -434,12 +449,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         // hit mine, decrease health
         if (target.name == "mineTarget"){
-            //print("HIT MINE")
             player.health -= 25
         }
+            
+        // hit shooting target, double decrease health
+        else if(target.name == "shootingTarget"){
+            player.health -= 50
+        }
+            
         // hit by target, decrease health and active target count
         else{
-            //print("HIT BY TARGET")
             self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
             player.health -= 25
             self.numOfActiveTargets--
