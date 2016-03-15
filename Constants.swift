@@ -21,6 +21,7 @@ struct Constants{
         static let ProjectileImage = "ship_gun_base"
         static let TargetImage1 = "ship_small_body"
         //static let TargetImage2 = ""
+        static let WaterRipple = "water_ripple_medium_000"
     }
     
     struct Scene {

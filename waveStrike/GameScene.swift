@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var enemies: [Enemy] = []               //Array of targets
     var numOfInitTargets = 0                //Number of initial number of targets
     var numOfActiveTargets = 0              //Number of active targets
+    var water: SKSpriteNode                 //Water sprite
     let waterAnimation: SKAction            //Water animation
     let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
     
@@ -37,6 +38,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         self.results = results
         self.tempHealth = health
+        
+        self.water = SKSpriteNode(imageNamed: Constants.Image.WaterRipple)
         
         // load water ripple images onto waterAnimation
         var waterTextures:[SKTexture] = []
@@ -86,14 +89,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Player
         player.health = tempHealth
         player.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 84, height: 226))
+        player.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: 60, height: 170))
         player.physicsBody?.dynamic = true
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Target
         player.physicsBody?.collisionBitMask = PhysicsCategory.None
         player.physicsBody?.usesPreciseCollisionDetection = true
+        player.zPosition = 2
         
         self.addChild(player)
+        
+        // Water
+        water.position = player.position
+        self.addChild(water)
         
         //Circles!
         circleLarge = SKShapeNode(circleOfRadius: dragRadius)
@@ -210,12 +218,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if(lastUpdateTime > 0)
         {
             dt = CGFloat(currentTime - lastUpdateTime)
-            //startWaterAnimation()
+            startWaterAnimation()
         }
         else
         {
             dt = 0
-            //stopWaterAnimation()
+            stopWaterAnimation()
         }
         lastUpdateTime = currentTime
         
@@ -235,6 +243,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Update player
         player.update(dt)
         player.wrap(boundary!)
+        
+        //Update water to follow player
+        water.position = player.position
+        water.zRotation = player.zRotation
         
         //Update targets
         for enemy in enemies
@@ -469,8 +481,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
  
     // Start ripple water animation
     func startWaterAnimation() {
-        if player.actionForKey("animation") == nil {
-            player.runAction(
+        if water.actionForKey("animation") == nil {
+            water.runAction(
                 SKAction.repeatActionForever(waterAnimation),
                 withKey: "animation")
         }
@@ -478,7 +490,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     
     // Stop ripple water animation
     func stopWaterAnimation() {
-        player.removeActionForKey("animation")
+        water.removeActionForKey("animation")
     }
     
 }
