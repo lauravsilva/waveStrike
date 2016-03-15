@@ -27,7 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var fireTouchLocation: CGPoint?         //Location tapped for firing
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
     var enemies: [Enemy] = []               //Array of targets
-    var numOfInitTargets = 0                //Number of initial number of targets
+    var numOfInitMovingTargets = 0          //Number of initial number of targets
     var numOfActiveTargets = 0              //Number of active targets
     var water: SKSpriteNode                 //Water sprite
     let waterAnimation: SKAction            //Water animation
@@ -167,8 +167,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             self.addChild(dirShoot)
             
             // Targets
-            numOfInitTargets = 4
-            for(var i = 0; i < numOfInitTargets; i++)
+            numOfInitMovingTargets = 4
+            for(var i = 0; i < numOfInitMovingTargets; i++)
             {
                 let enemy = Patroller(
                     position: Constants.TutorialStart.positions[i],
@@ -179,20 +179,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 addChild(enemy)
                 enemies.append(enemy)
             }
+            
         }
             
-        //Not tutorial
+        // Not tutorial
         else
         {
             // Targets
-            numOfInitTargets = (results.level - 1) * 3
-            for(var i = 0; i < numOfInitTargets; i++)
+            numOfInitMovingTargets = (results.level - 1) * 3
+            for(var i = 0; i < numOfInitMovingTargets; i++)
             {
                 let targetRotation = CGFloat.random(min: 0, max: 2 * π)
                 let enemy = Patroller(
                     position: CGPoint(
                         x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
-                        y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/3)),
+                        y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/2)),
                     velocityDir : CGPoint(
                         x: -sin(targetRotation),
                         y: cos(targetRotation))
@@ -201,10 +202,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 addChild(enemy)
                 enemies.append(enemy)
             }
+        
+            // Mines
+            let numOfMines = results.level * 2
+            for(var j = 0; j < numOfMines; j++)
+            {
+                let mine = Mine(
+                    position: CGPoint(
+                        x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
+                        y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY))
+                )
+                mine.name = "mineTarget"
+                addChild(mine)
+            }
+            
+            
+            // Shooter
+            let targetRotation = CGFloat.random(min: 0, max: 2 * π)
+            let shooterEnemy = Shooter(
+                position: CGPoint(
+                    x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
+                    y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/2)),
+                velocityDir : CGPoint(
+                    x: -sin(targetRotation),
+                    y: cos(targetRotation))
+            )
+            shooterEnemy.name = "shootingTarget"
+            //addChild(shooterEnemy)
+            //enemies.append(shooterEnemy)
+            
         }
         
+        
+        
+        
         //Active targets counter
-        numOfActiveTargets = numOfInitTargets * 2
+        numOfActiveTargets = numOfInitMovingTargets * 2
         
         //Physics!
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -374,23 +407,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
     }
     
-    //On collision
+    //On collision: target and projectile
     func projectileDidCollideWithTarget(projectile:SKSpriteNode, target:SKSpriteNode)
     {
+        //print("collision target + projectile")
         self.results.score++
         self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
-        self.numOfActiveTargets--
+        if(target.name != "mineTarget"){
+            //print("SHOT TARGET");
+            self.numOfActiveTargets--
+        }
+        
         projectile.removeFromParent()
         target.removeFromParent()
     }
     
+    //On collision: target + player
     func playerDidCollideWithTarget(target:SKSpriteNode)
     {
-        self.results.score += 2
-        self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
-        player.health -= 25
-        self.numOfActiveTargets -= 2
-        target.removeFromParent()
+        //print("collision target + player")
+        if (target.name == "mineTarget"){
+            //print("HIT MINE")
+            player.health -= 25
+        }
+            
+        else{
+            //print("HIT BY TARGET")
+            self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
+            player.health -= 25
+            self.numOfActiveTargets -= 2
+            target.removeFromParent()
+        }
     }
     
     //Perform upon touch
