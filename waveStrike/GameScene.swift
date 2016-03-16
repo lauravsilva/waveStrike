@@ -27,12 +27,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var fireTouchLocation: CGPoint?         //Location tapped for firing
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
     var enemies: [Enemy] = []               //Array of targets
+    var shootingEnemy: [Shooter] = []
     var numOfInitMovingTargets = 0          //Number of initial number of targets
     var numOfActiveTargets = 0              //Number of active targets
     var water: SKSpriteNode                 //Water sprite
     let waterAnimation: SKAction            //Water animation
     let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
-    var shooterTargetHealth = 6
+    var shooterTargetHealth = 10
+    let emitter = SKEmitterNode(fileNamed: "smoke")! //Emitter node
     
     //Init
     init(size: CGSize, results: LevelResults, health: CGFloat)
@@ -205,7 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             }
         
             // Mines
-            let numOfMines = results.level * 2
+            let numOfMines = results.level * 4
             for(var j = 0; j < numOfMines; j++)
             {
                 let mine = Mine(
@@ -230,11 +232,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             )
             shooterEnemy.name = "shootingTarget"
             addChild(shooterEnemy)
-            enemies.append(shooterEnemy)
+            shootingEnemy.append(shooterEnemy)
+
         }
         
         //Active targets counter
         numOfActiveTargets = numOfInitMovingTargets * 2
+        
+        //Emitter
+        emitter.zPosition = 3
+        emitter.particleBirthRate = 0
+        addChild(emitter)
         
         //Physics!
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -281,20 +289,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         //Update targets
         for enemy in enemies
         {
-            if (enemy.name == "shootingTarget"){
-                //enemy.fireBullets(true)
-            }
             enemy.update(dt)
             enemy.wrap(boundary!)
         }
         
         
+//        for shooter in shootingEnemy{
+//            shooter.update(dt)
+//            shooter.wrap(boundary!)
+//            shooter.fireBullets(true)
+//        }
+   
         
         //Update Rect
         rectFiring.xScale = player.fireRateCounter / player.fireRate
         rectFiring.position.x = CGRectGetMidX(self.frame) - 400 * player.fireRateCounter / player.fireRate
         rectHealth.xScale = player.health / player.maxHealth
         rectHealth.position.x = CGRectGetMidX(self.frame) - 400 * player.health / player.maxHealth
+        
+        // Emitter
+        if player.health < 50 {
+            emitter.particleBirthRate = 30
+            emitter.position = CGPoint(x: player.position.x, y: player.position.y)
+            emitter.particleRotation = player.zRotation
+        }
         
         //Win screen when there are no active targets remaining
         if numOfActiveTargets <= 0 {
