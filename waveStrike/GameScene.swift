@@ -453,6 +453,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // shoot shooting target, it takes damage
         else if(target.name == "shootingTarget"){
             shooterTargetHealth--
+            spriteBlink(target, blinkCount: 3)
             
             if (shooterTargetHealth <= 0){
                 self.results.score += 6
@@ -481,21 +482,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // hit mine, decrease health
         if (target.name == "mineTarget"){
             player.health -= 25
+            spriteBlink(player, blinkCount: 2)
             target.removeFromParent()
         }
             
         // hit shooting target, double decrease health
         else if(target.name == "shootingTarget"){
             player.health -= 50
+            spriteBlink(player, blinkCount: 2)
         }
             
         // hit by target, decrease health and active target count
         else{
             self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
             player.health -= 25
+            spriteBlink(player, blinkCount: 2)
             self.numOfActiveTargets--
             target.removeFromParent()
         }
+    }
+    
+    // Sprite node blinks blinks
+    func spriteBlink(sprite: SKSpriteNode, blinkCount: Int) {
+        let blink:SKAction = SKAction.sequence([
+            SKAction.fadeOutWithDuration(0.10),
+            SKAction.fadeInWithDuration(0.15)
+            ])
+        sprite.runAction(SKAction.repeatAction(blink, count: blinkCount))
     }
     
     //Perform upon touch
