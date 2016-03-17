@@ -25,6 +25,10 @@ struct Constants{
         static let WaterRipple = "water_ripple_medium_000"
     }
     
+    struct Sound {
+        static let Cannon = "cannon.wav"
+    }
+    
     struct Scene {
         static let MainScreenBackgroundColor = UIColor(red: 76, green: 104, blue: 119)
         static let GameBackgroundColor = UIColor(red: 128, green: 158, blue: 169)

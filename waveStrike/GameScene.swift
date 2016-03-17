@@ -36,6 +36,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     var shooterTargetHealth = 10
     let emitter = SKEmitterNode(fileNamed: "smoke")! //Emitter node
     
+    let cannonSound: SKAction = SKAction.playSoundFileNamed(
+        Constants.Sound.Cannon, waitForCompletion: false)
+    
     //Init
     init(size: CGSize, results: LevelResults, health: CGFloat)
     {
@@ -54,6 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         super.init(size: size)
     }
+  
 
     //Why does this ever need to exist?
     required init?(coder aDecoder: NSCoder)
@@ -221,19 +225,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
             
             // Shooter
+            var numOfShooters = results.level - 2
+            if numOfShooters > 3 {
+                numOfShooters = 2
+            }
+            
             let targetRotationShooter = CGFloat.random(min: 0, max: 2 * π)
-            let shooterEnemy = Shooter(
-                position: CGPoint(
-                    x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
-                    y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/2)),
-                velocityDir : CGPoint(
-                    x: -sin(targetRotationShooter),
-                    y: cos(targetRotationShooter))
-            )
-            shooterEnemy.name = "shootingTarget"
-            addChild(shooterEnemy)
-            shootingEnemy.append(shooterEnemy)
-
+            for(var k = 0; k < numOfShooters; k++){
+                let shooterEnemy = Shooter(
+                    position: CGPoint(
+                        x: CGFloat.random(min: boundary!.minX, max: boundary!.maxX),
+                        y: CGFloat.random(min: boundary!.minY, max: boundary!.maxY/2)),
+                    velocityDir : CGPoint(
+                        x: -sin(targetRotationShooter),
+                        y: cos(targetRotationShooter))
+                )
+                shooterEnemy.name = "shootingTarget"
+                addChild(shooterEnemy)
+                shootingEnemy.append(shooterEnemy)
+            }
         }
         
         //Active targets counter
@@ -243,6 +253,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         emitter.zPosition = 3
         emitter.particleBirthRate = 0
         addChild(emitter)
+    
         
         //Physics!
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -294,11 +305,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
         
         
-//        for shooter in shootingEnemy{
-//            shooter.update(dt)
-//            shooter.wrap(boundary!)
-//            shooter.fireBullets(true)
-//        }
+        for shooter in shootingEnemy{
+            shooter.update(dt)
+            shooter.wrap(boundary!)
+            //shooter.fireBullets(true)
+        }
    
         
         //Update Rect
@@ -344,6 +355,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         
         let guns = player.getGuns() //Position for guns
         var direction: CGPoint
+        
+        runAction(cannonSound)
         
         for(var i = 0; i < 4; i++)
         {

@@ -26,6 +26,7 @@
 		679C05A31C7E7C9400DD1C4C /* Sailor-Beware.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */; };
 		67F482DA1C9A0DF500718DFA /* smoke.sks in Resources */ = {isa = PBXBuildFile; fileRef = 67F482D81C9A0DF500718DFA /* smoke.sks */; };
 		67F482DB1C9A0DF500718DFA /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 67F482D91C9A0DF500718DFA /* spark.png */; };
+		67F482E01C9A2A4D00718DFA /* cannon.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67F482DF1C9A2A4D00718DFA /* cannon.wav */; };
 		67F4ADAE1C984F6F00A8C5E0 /* Patroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F4ADAD1C984F6E00A8C5E0 /* Patroller.swift */; };
 		67F5FB9D1C974A860096E8E8 /* LevelResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F5FB9C1C974A860096E8E8 /* LevelResults.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		679C05A21C7E7C9400DD1C4C /* Sailor-Beware.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sailor-Beware.ttf"; path = "Fonts/Sailor-Beware.ttf"; sourceTree = "<group>"; };
 		67F482D81C9A0DF500718DFA /* smoke.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = smoke.sks; sourceTree = "<group>"; };
 		67F482D91C9A0DF500718DFA /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		67F482DF1C9A2A4D00718DFA /* cannon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cannon.wav; sourceTree = "<group>"; };
 		67F4ADAD1C984F6E00A8C5E0 /* Patroller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Patroller.swift; sourceTree = "<group>"; };
 		67F5FB9C1C974A860096E8E8 /* LevelResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelResults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,8 +103,6 @@
 				67F5FB9C1C974A860096E8E8 /* LevelResults.swift */,
 				67F4ADAD1C984F6E00A8C5E0 /* Patroller.swift */,
 				675D5F141C9872100041D647 /* Shooter.swift */,
-				67F482D81C9A0DF500718DFA /* smoke.sks */,
-				67F482D91C9A0DF500718DFA /* spark.png */,
 				675D5F121C9858060041D647 /* Mine.swift */,
 			);
 			name = Classes;
@@ -127,6 +127,7 @@
 		679C05861C7E68D900DD1C4C /* waveStrike */ = {
 			isa = PBXGroup;
 			children = (
+				67F482DC1C9A189200718DFA /* Other Assets */,
 				670FE0941C91CE360080CA27 /* View Controller */,
 				670FE0911C91CAB70080CA27 /* Lib */,
 				67357C091C826FC8003F7AD5 /* Classes */,
@@ -150,6 +151,16 @@
 				679C059F1C7E71B900DD1C4C /* GameOverScene.swift */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		67F482DC1C9A189200718DFA /* Other Assets */ = {
+			isa = PBXGroup;
+			children = (
+				67F482DF1C9A2A4D00718DFA /* cannon.wav */,
+				67F482D81C9A0DF500718DFA /* smoke.sks */,
+				67F482D91C9A0DF500718DFA /* spark.png */,
+			);
+			name = "Other Assets";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				679C05A31C7E7C9400DD1C4C /* Sailor-Beware.ttf in Resources */,
+				67F482E01C9A2A4D00718DFA /* cannon.wav in Resources */,
 				679C058A1C7E68D900DD1C4C /* GameScene.sks in Resources */,
 				679C05961C7E68D900DD1C4C /* LaunchScreen.storyboard in Resources */,
 				67F482DB1C9A0DF500718DFA /* spark.png in Resources */,
