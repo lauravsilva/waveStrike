@@ -481,6 +481,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         // hit mine, decrease health
         if (target.name == "mineTarget"){
             player.health -= 25
+            target.removeFromParent()
         }
             
         // hit shooting target, double decrease health
