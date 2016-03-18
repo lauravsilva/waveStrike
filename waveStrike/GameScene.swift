@@ -10,50 +10,57 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate
 {
-    let ctx = UIGraphicsGetCurrentContext()
     
-    var boundary: CGRect?
+    //Constants
+    let ctx = UIGraphicsGetCurrentContext()
     let results: LevelResults
+    let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
     let tempHealth: CGFloat
+    let emitter = SKEmitterNode(fileNamed: "smoke")!
+    let cannonSound: SKAction = SKAction.playSoundFileNamed(
+        Constants.Sound.Cannon, waitForCompletion: false)
+    
+    //Variables
+    var boundary: CGRect?
     var rectFiring = SKShapeNode()          //Rect for firing rate indicator
     var rectHealth = SKShapeNode()          //Health bar
     var circleLarge = SKShapeNode()         //Large circle for wheel
     var circleSmall = SKShapeNode()         //Small circle for wheel
     var circleIndic = SKShapeNode()         //Small circle for wheel
     var dragRadius:CGFloat = 180;           //Max radius for directional dragging
-    var player = Player()                   //Player sprite
+    
     var lastUpdateTime: NSTimeInterval = 0  //Time of last updatev
     var dt: CGFloat = 0                     //Delta Time
     var fireTouchLocation: CGPoint?         //Location tapped for firing
     var dragTouchLocation: CGPoint?         //Location tapped for dragging
-    var enemies: [Enemy] = []               //Array of targets
-    var shootingEnemy: [Shooter] = []
-    var numOfInitMovingTargets = 0          //Number of initial number of targets
-    var numOfActiveTargets = 0              //Number of active targets
+    
+    var player = Player()                   //Player sprite
     var water: SKSpriteNode                 //Water sprite
     let waterAnimation: SKAction            //Water animation
-    let scoreLabel = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
-    var shooterTargetHealth = 10
-    let emitter = SKEmitterNode(fileNamed: "smoke")! //Emitter node
     
-    let cannonSound: SKAction = SKAction.playSoundFileNamed(
-        Constants.Sound.Cannon, waitForCompletion: false)
+    var enemies: [Enemy] = []               //Array of targets
+    var shootingEnemy: [Shooter] = []       //Array of shooting enemies
+    var shooterTargetHealth = 8             //Health points for shooterTarget
+    var numOfInitMovingTargets = 0          //Number of initial number of targets
+    var numOfActiveTargets = 0              //Number of active targets
+    var numshot = 0;
     
-    //Init
+    
+    //MARK: Init
     init(size: CGSize, results: LevelResults, health: CGFloat)
     {
         self.results = results
         self.tempHealth = health
         
+        // load water ripple images onto waterAnimation for player
         self.water = SKSpriteNode(imageNamed: Constants.Image.WaterRipple)
-        
-        // load water ripple images onto waterAnimation
         var waterTextures:[SKTexture] = []
         for i in 0...4 {
             waterTextures.append(SKTexture(imageNamed: "water_ripple_medium_00\(i)"))
         }
         waterAnimation = SKAction.animateWithTextures(waterTextures,
             timePerFrame: 0.1)
+        
         
         super.init(size: size)
     }
@@ -64,6 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
     {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     //Upon scene being loaded
     override func didMoveToView(view: SKView)
@@ -158,19 +166,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         if(results.level == 1)
         {
             let dirMove = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
-            dirMove.text = "Tap the circle to move!"
+            dirMove.text = "Tap the wheel below to control the ship,"
+            dirMove.fontColor = UIColor(red: 106, green: 109, blue: 108, alpha: 0.7)
             dirMove.fontSize = 45
             dirMove.verticalAlignmentMode = .Center
             dirMove.horizontalAlignmentMode = .Center
-            dirMove.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 450 + dragRadius)
+            dirMove.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)+450)
+            dirMove.zPosition = 0
             self.addChild(dirMove)
             
             let dirShoot = SKLabelNode(fontNamed: Constants.Font.SecondaryFont)
-            dirShoot.text = "Tap elsewhere to shoot!"
+            dirShoot.text = "and tap the water to shoot"
+            dirShoot.fontColor = UIColor(red: 106, green: 109, blue: 108, alpha: 0.7)
             dirShoot.fontSize = 45
             dirShoot.verticalAlignmentMode = .Center
             dirShoot.horizontalAlignmentMode = .Center
-            dirShoot.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame) - 550 - dragRadius)
+            dirShoot.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)+380)
+            dirShoot.zPosition = 0
             self.addChild(dirShoot)
             
             // Targets
@@ -193,7 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         else
         {
             // Targets
-            numOfInitMovingTargets = (results.level - 1) * 3
+            numOfInitMovingTargets = (results.level - 1) * 2
             for(var i = 0; i < numOfInitMovingTargets; i++)
             {
                 let targetRotation = CGFloat.random(min: 0, max: 2 * π)
@@ -244,6 +256,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
                 addChild(shooterEnemy)
                 shootingEnemy.append(shooterEnemy)
             }
+            
+            numOfInitMovingTargets += numOfShooters
         }
         
         //Active targets counter
@@ -253,7 +267,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         emitter.zPosition = 3
         emitter.particleBirthRate = 0
         addChild(emitter)
-    
         
         //Physics!
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -326,7 +339,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
         
         //Win screen when there are no active targets remaining
-        if numOfActiveTargets <= 0 {
+        if numOfActiveTargets <= 1 {
             let gameOverScene = GameOverScene(size: size, won: true, results: results, health: player.health)
             gameOverScene.scaleMode = scaleMode
             let reveal = SKTransition.crossFadeWithDuration(0.5)
@@ -393,6 +406,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
     }
     
+    //MARK: Collisions
     //On contact
     func didBeginContact(contact: SKPhysicsContact)
     {
@@ -437,6 +451,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0))
         {
+            
+            //numshot = 0
             projectileDidCollideWithTarget(firstBody.node as! SKSpriteNode, projectile: secondBody.node as! SKSpriteNode)
         }
         
@@ -469,6 +485,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         else{
             self.numOfActiveTargets--
             self.results.score += 4
+            numshot++
         }
         
         self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
@@ -498,6 +515,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             player.health -= 25
             spriteBlink(player, blinkCount: 2)
             self.numOfActiveTargets--
+            numshot++
             target.removeFromParent()
         }
     }
@@ -511,6 +529,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         sprite.runAction(SKAction.repeatAction(blink, count: blinkCount))
     }
     
+    //MARK: Touches
     //Perform upon touch
     func sceneTouched(touchLocation:CGPoint)
     {
@@ -597,6 +616,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         }
     }
  
+    //MARK: Animation
     // Start ripple water animation
     func startWaterAnimation() {
         if water.actionForKey("animation") == nil {

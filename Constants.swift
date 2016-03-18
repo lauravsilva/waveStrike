@@ -20,9 +20,10 @@ struct Constants{
         static let PlayerImage = "ship_medium_body"
         static let ProjectileImage = "ship_gun_base"
         static let TargetImage1 = "ship_small_body" // patroller
-        static let TargetImage2 = "ship_large_body" // shooter
+        static let TargetImage2 = "ship_small_b_body" // shooter
         static let TargetImage3 = "ship_gun_base_destroyed" // mine
         static let WaterRipple = "water_ripple_medium_000"
+        static let WaterRippleEnemy = "water_ripple_small_000"
     }
     
     struct Sound {
