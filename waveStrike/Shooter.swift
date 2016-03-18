@@ -40,9 +40,9 @@ class Shooter : Enemy
     
     
     //Fire bullet
-    func fireBullets(side: Bool)
+    func fireBullets()
     {
-
+        let side = randomBool()
         let guns = self.getGuns() //Position for guns
         var direction: CGPoint
         
@@ -80,5 +80,5 @@ class Shooter : Enemy
             projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         }
     }
-    
+
 }

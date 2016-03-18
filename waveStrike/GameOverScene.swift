@@ -70,7 +70,7 @@ class GameOverScene: SKScene
             backgroundColor = Constants.Scene.LoseBackgroundColor
             
             let loseLabel = SKLabelNode(fontNamed: Constants.Font.MainFont)
-            loseLabel.text = "You Lose"
+            loseLabel.text = "Game Over"
             loseLabel.fontSize = 100
             loseLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
             self.addChild(loseLabel)

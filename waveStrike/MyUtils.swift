@@ -45,6 +45,10 @@ struct PhysicsCategory {
     static let Player     : UInt32 = 0b100
 }
 
+func randomBool() -> Bool {
+    return arc4random_uniform(2) == 0 ? true: false
+}
+
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x + right.x, y: left.y + right.y)

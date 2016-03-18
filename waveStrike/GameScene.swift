@@ -321,7 +321,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         for shooter in shootingEnemy{
             shooter.update(dt)
             shooter.wrap(boundary!)
-            //shooter.fireBullets(true)
         }
    
         
@@ -331,7 +330,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate
         rectHealth.xScale = player.health / player.maxHealth
         rectHealth.position.x = CGRectGetMidX(self.frame) - 400 * player.health / player.maxHealth
         
-        // Emitter
+        //Emitter
         if player.health < 50 {
             emitter.particleBirthRate = 30
             emitter.position = CGPoint(x: player.position.x, y: player.position.y)
@@ -451,11 +450,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             (firstBody.categoryBitMask & PhysicsCategory.Target != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0))
         {
-            
-            //numshot = 0
             projectileDidCollideWithTarget(firstBody.node as! SKSpriteNode, projectile: secondBody.node as! SKSpriteNode)
         }
         
+        // Projectile + player
+        if (
+            (firstBody.categoryBitMask & PhysicsCategory.Projectile != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.Player != 0))
+        {
+            projectileDidCollideWithTarget(firstBody.node as! SKSpriteNode)
+        }
+        
+    }
+    
+    //On collision: player and projectile
+    func projectileDidCollideWithTarget(projectile:SKSpriteNode)
+    {
+        self.scoreLabel.text = "Level: \(self.results.level)  Score: \(self.results.score)"
+        player.health -= 25
+        spriteBlink(player, blinkCount: 2)
     }
     
     //On collision: target and projectile
@@ -614,6 +627,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate
             
             fireBullets(touchLeft)
         }
+
+        
     }
  
     //MARK: Animation
